@@ -10,7 +10,7 @@ module RubyLokaliseApi
       end
 
       def reload_data
-        reloaded_endpoint = @endpoint.reinitialize(query_params: [@content['project_id']], req_params: {})
+        reloaded_endpoint = @endpoint.reinitialize(query_params: [@project_id], req_params: {})
 
         self.class.new reloaded_endpoint.do_get
       end
@@ -18,7 +18,7 @@ module RubyLokaliseApi
       def key_comment(key_id, comment_id)
         main_endpoint_load(
           names: { endpoint: 'KeyComments', resource: 'Comment' },
-          params: { query: [@content['project_id'], key_id, comment_id] },
+          params: { query: [@project_id, key_id, comment_id] },
           client: @endpoint.client
         )
       end

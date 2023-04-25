@@ -3,19 +3,54 @@
 module RubyLokaliseApi
   module Resources
     class BaseResource
+      extend RubyLokaliseApi::Utils::Attributes
       include RubyLokaliseApi::Utils::Loaders
+      include RubyLokaliseApi::Utils::Keys
 
       def initialize(raw_response)
-        @content = raw_response[:content]
         @endpoint = raw_response[:endpoint]
+
+        populate_attrs_from raw_response[:content]
+      end
+
+      class << self
+        def inherited(subclass)
+          klass_attributes = attributes_for subclass
+
+          subclass.class_exec do
+            const_set :ATTRS, klass_attributes
+            attr_reader(*klass_attributes)
+          end
+
+          super
+        end
+
+        # Turn `Module::Nested::ClassName` to just `ClassName`
+        def base_name
+          name.split('::').last
+        end
       end
 
       private
 
-      def with_client(&block)
-        return unless block
+      def populate_attrs_from(content)
+        return unless content
 
-        @endpoint.client.instance_exec(@content, &block)
+        data_key = data_key_for model_class: self.class.base_name
+
+        supported_attrs.each do |attrib|
+          value = if content.key?(data_key) && content[data_key].is_a?(Hash) && content[data_key].key?(attrib)
+                    content[data_key][attrib]
+                  else
+                    content[attrib]
+                  end
+
+          instance_variable_set "@#{attrib}", value
+        end
+      end
+
+      def supported_attrs
+        self.class.const_get(:ATTRS)
       end
     end
   end

@@ -12,7 +12,15 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
     )
 
     comment = test_client.comment(project_id, key_id, comment_id)
-    
+
     expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::CommentResource)
+    expect(comment.project_id).to eq(project_id)
+    expect(comment.comment_id).to eq(comment_id)
+    expect(comment.key_id).to eq(key_id)
+    expect(comment.comment).to eq('<p>Hi!</p>')
+    expect(comment.added_by).to eq(20_181)
+    expect(comment.added_by_email).to eq('bodrovis@protonmail.com')
+    expect(comment.added_at).to eq('2023-04-21 14:11:11 (Etc/UTC)')
+    expect(comment.added_at_timestamp).to eq(1_682_086_271)
   end
 end
