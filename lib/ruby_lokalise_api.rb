@@ -16,4 +16,19 @@ loader.setup
 
 # Official Ruby client for Lokalise APIv2
 module RubyLokaliseApi
+  class << self
+    # Initializes a new Client object
+    #
+    # @return [RubyLokaliseApi::Client]
+    # @param token [String]
+    # @param params [Hash]
+    def client(token, params = {})
+      @client = RubyLokaliseApi::Client.new token, params
+    end
+
+    # Reset the currently set client
+    def reset_client!
+      @client = nil
+    end
+  end
 end

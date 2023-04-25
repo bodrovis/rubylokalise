@@ -7,12 +7,6 @@ module RubyLokaliseApi
         include RubyLokaliseApi::Request
 
         BASE_URL = 'https://api.lokalise.com/api2'
-
-        private
-
-        def base_query
-          []
-        end
       end
     end
   end

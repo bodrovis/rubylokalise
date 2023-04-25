@@ -13,6 +13,10 @@ module Stubs
     )
   end
 
+  def loaded_fixture(filename)
+    Oj.load fixture(filename)
+  end
+
   def fixture(filename)
     File.new("#{fixture_path}/#{filename}.json")
   end
@@ -33,7 +37,9 @@ module Stubs
       }
     }
 
-    params[:body] = Oj.dump(req) if req
+    # The default :object mode encode hashes in a way that's not properly
+    # recognized by Webmock
+    params[:body] = Oj.dump(req, mode: :strict) if req
 
     params
   end

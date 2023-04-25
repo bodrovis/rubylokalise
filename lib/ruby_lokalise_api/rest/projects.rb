@@ -14,12 +14,12 @@ module RubyLokaliseApi
       end
 
       def create_project(req_params)
-        validation = RubyLokaliseApi::Contracts::NewProjectContract.new.call(req_params)
+        # validation = RubyLokaliseApi::Contracts::NewProjectContract.new.call(req_params)
 
-        return validation.errors unless validation.success?
+        # return validation.errors unless validation.success?
 
         main_endpoint_load names: { endpoint: 'Projects', resource: 'Project' },
-                           params: { req: validation.to_h },
+                           params: { req: req_params },
                            verb: :post
       end
     end

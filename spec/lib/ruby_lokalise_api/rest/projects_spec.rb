@@ -3,53 +3,15 @@
 RSpec.describe RubyLokaliseApi::Rest::Projects do
   let(:project_id) { '20603843642073fe124fb8.14291681' }
 
-  it 'works' do
-    # WebMock.allow_net_connect!
+  specify '#project' do
+    stub(
+      uri: "projects/#{project_id}",
+      resp: fixture('projects/project')
+    )
 
-    # stub(
-    #   uri: "projects/#{project_id}",
-    #   resp: fixture('project')
-    # )
+    project = test_client.project project_id
 
-    # stub(
-    #   uri: 'projects/20603843642073fe124fb8.14291681',
-    #   req: {'name' => 'OnBoarding-2023', 'description' => 'desc'},
-    #   resp: sample_project,
-    #   params: {verb: :put}
-    # )
-
-    # stub(
-    #   uri: 'projects/20603843642073fe124fb8.14291681',
-    #   req: {'name' => 'OnBoarding-2023', 'description' => 'desc new'},
-    #   resp: sample_project,
-    #   params: {verb: :put}
-    # )
-
-    # project = test_client.project(project_id)
-    # puts project.inspect
-    # key_id = 306_573_175
-    # comment_id = 16_549_635
-
-    # stub(
-    #   uri: "projects/20603843642073fe124fb8.14291681/keys/#{key_id}/comments/#{comment_id}",
-    #   resp: sample_comment
-    # )
-
-
-    # res = project.update({name: 'OnBoarding-2023', description: 'desc'})
-
-    # # # puts res.inspect
-    # # puts res.class.name
-
-    # res = project.update({name: 'OnBoarding-2023', description: 'desc new'})
-
-    # reloaded = project.reload_data
-
-    # puts reloaded.inspect
-
-    # puts reloaded.key_comment(key_id, comment_id).inspect
-
-    # puts res.inspect
+    expect(project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
   end
 
   specify '#create_project' do
@@ -57,22 +19,23 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
     new_project_id = '526928826442cf2f60f643.34369791'
 
     stub(
-      uri: "projects",
-      req: {'name' => new_name},
-      resp: fixture('create_project'),
-      params: {verb: :post}
+      uri: 'projects',
+      req: { 'name' => new_name },
+      resp: fixture('projects/create_project'),
+      params: { verb: :post }
     )
 
     stub(
       uri: "projects/#{new_project_id}",
-      resp: fixture('create_project')
+      resp: fixture('projects/create_project')
     )
 
-    new_project = test_client.create_project({name: new_name})
-    puts new_project.to_h
+    new_project = test_client.create_project({ name: new_name })
 
-   # reloaded = new_project.reload_data
+    expect(new_project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
 
-   # puts reloaded.inspect
+    reloaded_project = new_project.reload_data
+
+    expect(reloaded_project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
   end
 end

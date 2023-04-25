@@ -24,12 +24,6 @@ Metrics/MethodLength:
   CountComments: false
   Max: 10
 
-Metrics/ModuleLength:
-  Max: 150
-
-Metrics/ClassLength:
-  Max: 150
-
 Metrics/ParameterLists:
   Max: 4
   CountKeywordArgs: true
@@ -61,6 +55,3 @@ RSpec/ExampleLength:
 
 RSpec/MessageSpies:
   EnforcedStyle: receive
-
-RSpec/MultipleMemoizedHelpers:
-  Max: 10

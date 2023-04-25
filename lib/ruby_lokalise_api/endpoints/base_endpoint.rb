@@ -46,17 +46,10 @@ module RubyLokaliseApi
 
       def partial_uri(instance_query)
         template = Addressable::Template.new '{/segments*}'
-        r = template.expand(
+
+        template.expand(
           segments: instance_query.to_a.flatten
         ).to_s
-
-        puts r.inspect
-
-        r
-      end
-
-      def base_query
-        []
       end
     end
   end
