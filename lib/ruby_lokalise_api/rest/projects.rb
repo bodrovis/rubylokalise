@@ -9,8 +9,13 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Resources::Project]
       # @param project_id [String, Integer]
       def project(project_id)
-        main_endpoint_load names: { endpoint: 'Projects', resource: 'Project' },
-                           params: { query: [project_id] }
+        main_endpoint_res names: { endpoint: 'Projects', resource: 'Project' },
+                          params: { query: [project_id] }
+      end
+
+      def projects(req_params = {})
+        main_endpoint_collection names: { endpoint: 'Projects', collection: 'Project' },
+                                 params: { req: req_params }
       end
 
       def create_project(req_params)
@@ -18,9 +23,14 @@ module RubyLokaliseApi
 
         # return validation.errors unless validation.success?
 
-        main_endpoint_load names: { endpoint: 'Projects', resource: 'Project' },
-                           params: { req: req_params },
-                           verb: :post
+        main_endpoint_res names: { endpoint: 'Projects', resource: 'Project' },
+                          params: { req: req_params },
+                          verb: :post
+      end
+
+      def destroy_project(project_id)
+        main_endpoint_delete endpoint: 'Projects',
+                             params: { query: [project_id] }
       end
     end
   end

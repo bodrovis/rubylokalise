@@ -93,6 +93,7 @@ payment_card:
   - created_at_timestamp
 project:
   - project_id
+  - project_type
   - name
   - description
   - created_at

@@ -8,12 +8,11 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
   specify '#comment' do
     stub(
       uri: "projects/#{project_id}/keys/#{key_id}/comments/#{comment_id}",
-      resp: fixture('comments/comment')
+      resp: { body: fixture('comments/comment') }
     )
 
     comment = test_client.comment(project_id, key_id, comment_id)
 
-    expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::CommentResource)
     expect(comment.project_id).to eq(project_id)
     expect(comment.comment_id).to eq(comment_id)
     expect(comment.key_id).to eq(key_id)

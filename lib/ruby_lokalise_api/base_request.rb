@@ -33,15 +33,15 @@ module RubyLokaliseApi
       )
     end
 
-    def delete(path, client, params = {})
+    def delete(endpoint)
       respond_with(
         # Rubocop tries to replace `delete` with `gsub` but that's a different method here!
         # rubocop:disable Style/CollectionMethods
-        connection(client).delete(prepare(path)) do |req|
+        connection(endpoint).delete(prepare(endpoint.uri)) do |req|
           # rubocop:enable Style/CollectionMethods
-          req.body = custom_dump params
+          req.body = custom_dump endpoint.req_params
         end,
-        client
+        endpoint
       )
     end
 

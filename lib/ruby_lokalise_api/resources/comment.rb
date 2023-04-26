@@ -2,7 +2,7 @@
 
 module RubyLokaliseApi
   module Resources
-    class ContributorResource < BaseResource
+    class Comment < Base
     end
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module RubyLokaliseApi
-  module Resources
-    class CommentResource < BaseResource
+  module Types
+    class DeletedResource < Generic
     end
   end
 end

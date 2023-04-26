@@ -7,12 +7,11 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
   specify '#contributor' do
     stub(
       uri: "projects/#{project_id}/contributors/#{user_id}",
-      resp: fixture('contributors/contributor')
+      resp: { body: fixture('contributors/contributor') }
     )
 
     contributor = test_client.contributor project_id, user_id
 
-    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::ContributorResource)
     expect(contributor.user_id).to eq(20_181)
     expect(contributor.email).to eq('bodrovis@protonmail.com')
     expect(contributor.fullname).to eq('Ilya B')

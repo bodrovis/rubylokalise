@@ -2,7 +2,9 @@
 
 module RubyLokaliseApi
   module Resources
-    class BaseResource
+    class Base
+      using RubyLokaliseApi::Utils::Classes
+      include RubyLokaliseApi::Concerns::HashAccessible
       extend RubyLokaliseApi::Utils::Attributes
       include RubyLokaliseApi::Utils::Loaders
       include RubyLokaliseApi::Utils::Keys
@@ -11,11 +13,13 @@ module RubyLokaliseApi
         @endpoint = raw_response[:endpoint]
 
         populate_attrs_from raw_response[:content]
+
+        # @raw_content = raw_response[:content]
       end
 
       class << self
         def inherited(subclass)
-          klass_attributes = attributes_for subclass
+          klass_attributes = attributes_for subclass.base_name
 
           subclass.class_exec do
             const_set :ATTRS, klass_attributes
@@ -23,11 +27,6 @@ module RubyLokaliseApi
           end
 
           super
-        end
-
-        # Turn `Module::Nested::ClassName` to just `ClassName`
-        def base_name
-          name.split('::').last
         end
       end
 

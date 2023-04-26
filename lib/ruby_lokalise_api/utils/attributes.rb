@@ -12,8 +12,8 @@ module RubyLokaliseApi
       # Loads attributes for the given resource based on its name
       #
       # @return [Array<String>]
-      def attributes_for(klass)
-        name = unify klass.base_name.snakecase
+      def attributes_for(klass_name)
+        name = unify klass_name.snakecase
 
         @attributes ||= YAML.load_file(File.expand_path('../data/attributes.yml', __dir__)).freeze
 
@@ -21,8 +21,7 @@ module RubyLokaliseApi
       end
 
       # Unify some resources' names (eg, `ProjectComment` and `KeyComment` have the same
-      # attributes which are stored under `comment`).
-      # Also get rid of the "_resource" postfix
+      # attributes which are stored under `comment`)
       #
       # @return [String]
       def unify(name)
@@ -30,7 +29,7 @@ module RubyLokaliseApi
           return u_a if name.match?(/#{u_a}/)
         end
 
-        name.delete_suffix '_resource'
+        name
       end
     end
   end

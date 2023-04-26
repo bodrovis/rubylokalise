@@ -55,3 +55,6 @@ RSpec/ExampleLength:
 
 RSpec/MessageSpies:
   EnforcedStyle: receive
+
+Style/Documentation:
+  Enabled: false

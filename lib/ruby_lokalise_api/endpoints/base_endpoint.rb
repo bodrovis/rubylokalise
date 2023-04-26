@@ -26,6 +26,10 @@ module RubyLokaliseApi
         self.class::BASE_URL
       end
 
+      def base_query(*_args)
+        {}
+      end
+
       private
 
       HTTP_METHODS_REGEXP = /\Ado_(get|post|put|delete)\z/.freeze

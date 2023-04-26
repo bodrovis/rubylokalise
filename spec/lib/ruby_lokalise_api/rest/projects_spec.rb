@@ -2,40 +2,91 @@
 
 RSpec.describe RubyLokaliseApi::Rest::Projects do
   let(:project_id) { '20603843642073fe124fb8.14291681' }
+  let(:new_project_id) { '526928826442cf2f60f643.34369791' }
 
   specify '#project' do
     stub(
       uri: "projects/#{project_id}",
-      resp: fixture('projects/project')
+      resp: { body: fixture('projects/project') }
     )
 
     project = test_client.project project_id
 
-    expect(project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
+    expect(project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
+    expect(project.project_id).to eq('20603843642073fe124fb8.14291681')
+    expect(project.project_type).to eq('localization_files')
+    expect(project.name).to eq('OnBoarding-2023')
+    expect(project.description).to eq('')
+    expect(project.created_at).to eq('2023-03-26 16:34:06 (Etc/UTC)')
+    expect(project.created_at_timestamp).to eq(1_679_848_446)
+    expect(project.created_by).to eq(20_181)
+    expect(project.created_by_email).to eq('bodrovis@protonmail.com')
+    expect(project.team_id).to eq(176_692)
+    expect(project.base_language_id).to eq(640)
+    expect(project.base_language_iso).to eq('en')
+    expect(project.project_type).to eq('localization_files')
+    expect(project.settings['per_platform_key_names']).to be false
+    expect(project.statistics['progress_total']).to eq(50)
+  end
+
+  specify '#projects' do
+    req_params = { page: 1, limit: 2, include_statistics: 1 }
+
+    stub(
+      uri: 'projects',
+      req: { query: req_params },
+      resp: {
+        body: fixture('projects/projects'),
+        headers: {
+          'x-pagination-total-count': '55',
+          'x-pagination-page-count': '28',
+          'x-pagination-limit': '2',
+          'x-pagination-page': '1'
+        }
+      }
+    )
+
+    projects = test_client.projects req_params
+
+    expect(projects.collection.length).to eq(2)
   end
 
   specify '#create_project' do
     new_name = 'RubyNew'
-    new_project_id = '526928826442cf2f60f643.34369791'
 
     stub(
       uri: 'projects',
-      req: { 'name' => new_name },
-      resp: fixture('projects/create_project'),
+      req: { body: { 'name' => new_name } },
+      resp: { body: fixture('projects/create_project') },
       params: { verb: :post }
     )
 
     stub(
       uri: "projects/#{new_project_id}",
-      resp: fixture('projects/create_project')
+      resp: { body: fixture('projects/create_project') }
     )
 
     new_project = test_client.create_project({ name: new_name })
 
-    expect(new_project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
+    expect(new_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
+    expect(new_project.name).to eq(new_name)
 
     reloaded_project = new_project.reload_data
 
-    expect(reloaded_project).to be_an_instance_of(RubyLokaliseApi::Resources::ProjectResource)
+    expect(reloaded_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
+  end
+
+  specify '#destroy_project' do
+    stub(
+      uri: "projects/#{new_project_id}",
+      resp: { body: fixture('projects/destroy_project') },
+      params: { verb: :delete }
+    )
+
+    resp = test_client.destroy_project(new_project_id)
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Types::DeletedResource)
+    expect(resp.project_id).to eq(new_project_id)
+    expect(resp.project_deleted).to be true
   end
 end
