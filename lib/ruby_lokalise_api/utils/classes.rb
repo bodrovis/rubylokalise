@@ -8,6 +8,10 @@ module RubyLokaliseApi
         def base_name
           name.split('::').last
         end
+
+        def to_array
+          is_a?(Array) ? self : [self]
+        end
       end
     end
   end

@@ -2,9 +2,9 @@
 
 module RubyLokaliseApi
   module Collections
-    class Project < Base
+    class Projects < Base
       ENDPOINT = RubyLokaliseApi::Endpoints::Main::ProjectsEndpoint
-      MAIN_PARAM = :project_id
+      RESOURCE = RubyLokaliseApi::Resources::Project
     end
   end
 end

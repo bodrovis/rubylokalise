@@ -3,12 +3,14 @@
 module RubyLokaliseApi
   module Endpoints
     class BaseEndpoint
+      using RubyLokaliseApi::Utils::Classes
+
       attr_reader :client, :req_params, :uri
 
       BASE_URL = ''
 
       def initialize(client, params = {})
-        @query_params = params[:query]
+        @query_params = params[:query].to_array
         @client = client
         @req_params = params[:req]
         @uri = partial_uri(base_query(*@query_params))

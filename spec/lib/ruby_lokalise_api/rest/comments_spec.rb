@@ -22,4 +22,20 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
     expect(comment.added_at).to eq('2023-04-21 14:11:11 (Etc/UTC)')
     expect(comment.added_at_timestamp).to eq(1_682_086_271)
   end
+
+  specify '#comments' do
+    stub(
+      uri: "projects/#{project_id}/keys/#{key_id}/comments",
+      resp: { body: fixture('comments/comments') }
+    )
+
+    comments = test_client.comments project_id, key_id
+    expect(comments.collection.length).to eq(3)
+
+    comment = comments[0]
+
+    expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
+    expect(comment.comment_id).to eq(16_588_650)
+    expect(comment.project_id).to eq(project_id)
+  end
 end

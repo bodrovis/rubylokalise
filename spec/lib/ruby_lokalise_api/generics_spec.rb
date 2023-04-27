@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RubyLokaliseApi::Types::Generic do
+RSpec.describe RubyLokaliseApi::Generics do
   subject { described_class.new(endpoint: 'stub', answer: 42) }
 
   it_behaves_like 'hash accessible'

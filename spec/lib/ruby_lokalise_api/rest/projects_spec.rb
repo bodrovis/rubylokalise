@@ -49,6 +49,7 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
     projects = test_client.projects req_params
 
     expect(projects.collection.length).to eq(2)
+    expect(projects[0].project_id).to eq('44749534644685cf3410d0.03071739')
   end
 
   specify '#create_project' do
@@ -85,7 +86,7 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
 
     resp = test_client.destroy_project(new_project_id)
 
-    expect(resp).to be_an_instance_of(RubyLokaliseApi::Types::DeletedResource)
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
     expect(resp.project_id).to eq(new_project_id)
     expect(resp.project_deleted).to be true
   end

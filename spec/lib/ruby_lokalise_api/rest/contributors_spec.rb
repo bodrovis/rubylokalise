@@ -27,4 +27,20 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
     )
     expect(contributor.admin_rights).to include('upload')
   end
+
+  specify '#contributors' do
+    stub(
+      uri: "projects/#{project_id}/contributors",
+      resp: { body: fixture('contributors/contributors') }
+    )
+
+    contributors = test_client.contributors project_id
+    expect(contributors.collection.length).to eq(3)
+
+    contributor = contributors[0]
+
+    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
+    expect(contributor.user_id).to eq(20_181)
+    expect(contributor.project_id).to eq(project_id)
+  end
 end

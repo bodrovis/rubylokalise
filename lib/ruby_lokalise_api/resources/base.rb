@@ -17,6 +17,20 @@ module RubyLokaliseApi
         # @raw_content = raw_response[:content]
       end
 
+      def update(params)
+        self.class.new reinit_endpoint(params).do_put
+      end
+
+      def destroy
+        RubyLokaliseApi::Generics::DeletedResource.new(
+          reinit_endpoint.do_delete[:content]
+        )
+      end
+
+      def reload_data
+        self.class.new reinit_endpoint.do_get
+      end
+
       class << self
         def inherited(subclass)
           klass_attributes = attributes_for subclass.base_name
@@ -31,6 +45,14 @@ module RubyLokaliseApi
       end
 
       private
+
+      def reinit_endpoint(req_params = {})
+        query_params = self.class.const_get(:MAIN_PARAMS).to_array.map do |param|
+          instance_variable_get "@#{param}"
+        end
+
+        @endpoint.reinitialize(query_params: query_params, req_params: req_params)
+      end
 
       def populate_attrs_from(content)
         return unless content

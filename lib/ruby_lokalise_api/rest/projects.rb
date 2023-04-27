@@ -10,11 +10,11 @@ module RubyLokaliseApi
       # @param project_id [String, Integer]
       def project(project_id)
         main_endpoint_res names: { endpoint: 'Projects', resource: 'Project' },
-                          params: { query: [project_id] }
+                          params: { query: project_id }
       end
 
       def projects(req_params = {})
-        main_endpoint_collection names: { endpoint: 'Projects', collection: 'Project' },
+        main_endpoint_collection names: { endpoint: 'Projects', collection: 'Projects' },
                                  params: { req: req_params }
       end
 
@@ -30,7 +30,7 @@ module RubyLokaliseApi
 
       def destroy_project(project_id)
         main_endpoint_delete endpoint: 'Projects',
-                             params: { query: [project_id] }
+                             params: { query: project_id }
       end
     end
   end

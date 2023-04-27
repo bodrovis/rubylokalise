@@ -7,6 +7,11 @@ module RubyLokaliseApi
         main_endpoint_res names: { endpoint: 'Contributors', resource: 'Contributor' },
                           params: { query: [project_id, contributor_id] }
       end
+
+      def contributors(project_id, req_params = {})
+        main_endpoint_collection names: { endpoint: 'Contributors', collection: 'Contributors' },
+                                 params: { query: project_id, req: req_params }
+      end
     end
   end
 end

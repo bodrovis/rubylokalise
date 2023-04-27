@@ -6,11 +6,23 @@ module RubyLokaliseApi
       using RubyLokaliseApi::Utils::Strings
 
       def data_key_for(model_class:)
-        get_key name: 'DATA_KEY', model_class: model_class
+        key = if Module.const_defined? "RubyLokaliseApi::Resources::#{model_class}::DATA_KEY"
+                Module.const_get "RubyLokaliseApi::Resources::#{model_class}::DATA_KEY"
+              else
+                model_class
+              end
+
+        key.snakecase
       end
 
       def collection_key_for(klass:)
-        get_collection_key name: 'DATA_KEY_PLURAL', klass: klass
+        key = if Module.const_defined?("RubyLokaliseApi::Collections::#{klass}::DATA_KEY")
+                Module.const_get("RubyLokaliseApi::Collections::#{klass}::DATA_KEY")
+              else
+                klass
+              end
+
+        key.snakecase
       end
 
       # Returns the name of the API resource for the given class.
@@ -40,28 +52,6 @@ module RubyLokaliseApi
 
       #   "#{data_key}s"
       # end
-
-      def get_key(name:, model_class:)
-        key = if Module.const_defined? "RubyLokaliseApi::Resources::#{model_class}::#{name}"
-                Module.const_get "RubyLokaliseApi::Resources::#{model_class}::#{name}"
-              else
-                model_class
-              end
-
-        key.snakecase
-      end
-
-      def get_collection_key(name:, klass:)
-        key = if Module.const_defined?("RubyLokaliseApi::Collections::#{klass}::#{name}")
-                Module.const_get(
-                  "RubyLokaliseApi::Collections::#{klass}::#{name}"
-                )
-              else
-                "#{klass}s"
-              end
-
-        key.snakecase
-      end
 
       # def get_key(name:, model_class:, collection: false, strict: false)
       #   key = if collection && Module.const_defined?("RubyLokaliseApi::Collections::#{model_class}::#{name}")

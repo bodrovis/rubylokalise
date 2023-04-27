@@ -7,6 +7,11 @@ module RubyLokaliseApi
         main_endpoint_res names: { endpoint: 'KeyComments', resource: 'Comment' },
                           params: { query: [project_id, key_id, comment_id] }
       end
+
+      def comments(project_id, key_id, req_params = {})
+        main_endpoint_collection names: { endpoint: 'KeyComments', collection: 'KeyComments' },
+                                 params: { query: [project_id, key_id], req: req_params }
+      end
     end
   end
 end

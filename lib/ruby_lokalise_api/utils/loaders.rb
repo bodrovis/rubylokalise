@@ -20,7 +20,7 @@ module RubyLokaliseApi
       def main_endpoint_delete(endpoint:, params: {}, client: self)
         ep = endpoint("Main::#{endpoint}", params, client)
 
-        RubyLokaliseApi::Types::DeletedResource.new ep.do_delete[:content]
+        RubyLokaliseApi::Generics::DeletedResource.new ep.do_delete[:content]
       end
 
       def endpoint(name, params, client)
