@@ -20,4 +20,8 @@ RSpec.configure do |config|
   config.include TestClient
   config.include Stubs
   config.include RubyLokaliseApi::Utils::Loaders
+
+  config.before(:suite) do
+    Fixtures.eager_load
+  end
 end

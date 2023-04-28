@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   module Collections
     class Contributors < Base
-      ENDPOINT = RubyLokaliseApi::Endpoints::Main::ContributorsEndpoint
+      ENDPOINT = RubyLokaliseApi::Endpoints::ContributorsEndpoint
       RESOURCE = RubyLokaliseApi::Resources::Contributor
     end
   end

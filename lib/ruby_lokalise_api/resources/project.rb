@@ -6,7 +6,7 @@ module RubyLokaliseApi
       MAIN_PARAMS = 'project_id'
 
       def key_comment(key_id, comment_id)
-        main_endpoint_res(
+        endpoint_resource(
           names: { endpoint: 'KeyComments', resource: 'Comment' },
           params: { query: [@project_id, key_id, comment_id] },
           client: @endpoint.client

@@ -54,12 +54,12 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
 
   specify '#create_project' do
     new_name = 'RubyNew'
+    params = { name: new_name }
 
     stub(
       uri: 'projects',
-      req: { body: { 'name' => new_name } },
-      resp: { body: fixture('projects/create_project') },
-      params: { verb: :post }
+      req: { body: params, verb: :post },
+      resp: { body: fixture('projects/create_project') }
     )
 
     stub(
@@ -67,7 +67,7 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
       resp: { body: fixture('projects/create_project') }
     )
 
-    new_project = test_client.create_project({ name: new_name })
+    new_project = test_client.create_project(params)
 
     expect(new_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
     expect(new_project.name).to eq(new_name)
@@ -80,8 +80,8 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
   specify '#destroy_project' do
     stub(
       uri: "projects/#{new_project_id}",
-      resp: { body: fixture('projects/destroy_project') },
-      params: { verb: :delete }
+      req: { verb: :delete },
+      resp: { body: fixture('projects/destroy_project') }
     )
 
     resp = test_client.destroy_project(new_project_id)

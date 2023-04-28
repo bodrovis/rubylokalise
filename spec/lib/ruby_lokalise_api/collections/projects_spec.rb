@@ -4,7 +4,7 @@ RSpec.describe RubyLokaliseApi::Collections::Projects do
   let(:projects) do
     collection 'Projects',
                content: loaded_fixture('projects/projects'),
-               endpoint: endpoint('Main::Projects', {}, test_client)
+               endpoint: endpoint('Projects', {}, test_client)
   end
 
   let(:pagination_headers) do
@@ -54,9 +54,8 @@ RSpec.describe RubyLokaliseApi::Collections::Projects do
 
     stub(
       uri: "projects/#{project_id}",
-      req: { body: params },
-      resp: { body: fixture('projects/update_project2') },
-      params: { verb: :put }
+      req: { body: params, verb: :put },
+      resp: { body: fixture('projects/update_project2') }
     )
 
     updated_project = project.update params

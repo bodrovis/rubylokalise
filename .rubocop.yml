@@ -28,16 +28,6 @@ Metrics/ParameterLists:
   Max: 4
   CountKeywordArgs: true
 
-Style/CollectionMethods:
-  Enabled: true
-  PreferredMethods:
-    collect:  'map'
-    collect!: 'map!'
-    inject:   'reduce'
-    find:     'detect'
-    find_all: 'select'
-    delete:   'gsub'
-
 Layout/DotPosition:
   EnforcedStyle: trailing
 

@@ -5,20 +5,20 @@ module RubyLokaliseApi
     module Loaders
       private
 
-      def main_endpoint_res(names:, params: {}, verb: :get, client: self)
-        ep = endpoint("Main::#{names[:endpoint]}", params, client)
+      def endpoint_resource(names:, params: {}, verb: :get, client: self)
+        ep = endpoint(names[:endpoint], params, client)
 
         resource names[:resource], ep.send("do_#{verb}".to_sym)
       end
 
-      def main_endpoint_collection(names:, params: {}, verb: :get, client: self)
-        ep = endpoint("Main::#{names[:endpoint]}", params, client)
+      def endpoint_collection(names:, params: {}, verb: :get, client: self)
+        ep = endpoint(names[:endpoint], params, client)
 
         collection names[:collection], ep.send("do_#{verb}".to_sym)
       end
 
-      def main_endpoint_delete(endpoint:, params: {}, client: self)
-        ep = endpoint("Main::#{endpoint}", params, client)
+      def endpoint_delete(endpoint:, params: {}, client: self)
+        ep = endpoint(endpoint, params, client)
 
         RubyLokaliseApi::Generics::DeletedResource.new ep.do_delete[:content]
       end

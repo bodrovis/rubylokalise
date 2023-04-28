@@ -238,3 +238,13 @@ webhook:
   - secret
   - events
   - event_lang_map
+o_auth2_token:
+  - access_token
+  - refresh_token
+  - expires_in
+  - token_type
+o_auth2_refreshed_token:
+  - access_token
+  - scope
+  - expires_in
+  - token_type

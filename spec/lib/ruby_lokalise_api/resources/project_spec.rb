@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
   let(:project_id) { loaded_project_fixture['project_id'] }
 
   let(:project_endpoint) do
-    endpoint 'Main::Projects', { query: [project_id] }, test_client
+    endpoint 'Projects', { query: [project_id] }, test_client
   end
 
   let(:project) do
@@ -18,9 +18,8 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
 
     stub(
       uri: "projects/#{project_id}",
-      req: { body: params },
-      resp: { body: fixture('projects/update_project') },
-      params: { verb: :put }
+      req: { body: params, verb: :put },
+      resp: { body: fixture('projects/update_project') }
     )
 
     updated_project = project.update params
@@ -33,12 +32,12 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
     created_project_id = created_project_fixture['project_id']
     created_project = resource 'Project',
                                content: created_project_fixture,
-                               endpoint: endpoint('Main::Projects', { query: [created_project_id] }, test_client)
+                               endpoint: endpoint('Projects', { query: [created_project_id] }, test_client)
 
     stub(
       uri: "projects/#{created_project_id}",
-      resp: { body: fixture('projects/destroy_project') },
-      params: { verb: :delete }
+      req: { verb: :delete },
+      resp: { body: fixture('projects/destroy_project') }
     )
 
     resp = created_project.destroy
@@ -71,9 +70,8 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
 
     stub(
       uri: "projects/#{project_id}",
-      req: { body: params },
-      resp: { body: fixture('projects/update_project') },
-      params: { verb: :put }
+      req: { body: params, verb: :put },
+      resp: { body: fixture('projects/update_project') }
     )
 
     reloaded_project = project.reload_data

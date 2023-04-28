@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   module Collections
     class Projects < Base
-      ENDPOINT = RubyLokaliseApi::Endpoints::Main::ProjectsEndpoint
+      ENDPOINT = RubyLokaliseApi::Endpoints::ProjectsEndpoint
       RESOURCE = RubyLokaliseApi::Resources::Project
     end
   end
