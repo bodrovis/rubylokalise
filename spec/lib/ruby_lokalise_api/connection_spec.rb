@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Connection do
   let(:dummy) { Class.new { include RubyLokaliseApi::Connection }.new }
 
   let(:project_endpoint) do
-    endpoint 'Projects', { query: [project_id] }, test_client
+    endpoint 'Projects', test_client, query: [project_id]
   end
 
   before { RubyLokaliseApi.reset_client! }
@@ -28,7 +28,7 @@ RSpec.describe RubyLokaliseApi::Connection do
     custom_client = RubyLokaliseApi.client(ENV.fetch('LOKALISE_API_TOKEN', nil),
                                            open_timeout: 100, timeout: 500)
 
-    custom_endpoint = endpoint 'Projects', { query: [project_id] }, custom_client
+    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
 
     conn = dummy.connection custom_endpoint
 
@@ -39,7 +39,7 @@ RSpec.describe RubyLokaliseApi::Connection do
     custom_client.timeout = 300
     custom_client.open_timeout = 200
 
-    custom_endpoint = endpoint 'Projects', { query: [project_id] }, custom_client
+    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
 
     another_conn = dummy.connection custom_endpoint
 
@@ -50,7 +50,7 @@ RSpec.describe RubyLokaliseApi::Connection do
   it 'gzip compression is on by default' do
     custom_client = RubyLokaliseApi.client(ENV.fetch('LOKALISE_API_TOKEN', nil))
 
-    custom_endpoint = endpoint 'Projects', { query: [project_id] }, custom_client
+    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
 
     conn = dummy.connection custom_endpoint
 

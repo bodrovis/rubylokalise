@@ -77,6 +77,30 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
     expect(reloaded_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
   end
 
+  specify '#update_project' do
+    params = { name: 'OnBoarding-2023', description: 'Updated description' }
+
+    stub(
+      uri: "projects/#{project_id}",
+      req: { body: params, verb: :put },
+      resp: { body: fixture('projects/update_project') }
+    )
+
+    stub(
+      uri: "projects/#{project_id}",
+      resp: { body: fixture('projects/project') }
+    )
+
+    updated_project = test_client.update_project project_id, params
+
+    expect(updated_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
+    expect(updated_project.description).to eq(params[:description])
+
+    reloaded_project = updated_project.reload_data
+
+    expect(reloaded_project).to be_an_instance_of(RubyLokaliseApi::Resources::Project)
+  end
+
   specify '#destroy_project' do
     stub(
       uri: "projects/#{new_project_id}",
@@ -89,5 +113,21 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
     expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
     expect(resp.project_id).to eq(new_project_id)
     expect(resp.project_deleted).to be true
+  end
+
+  specify '#empty_project' do
+    project_to_empty = '7078965360db431d026791.96621226'
+
+    stub(
+      uri: "projects/#{project_to_empty}/empty",
+      req: { verb: :put },
+      resp: { body: fixture('projects/empty_project') }
+    )
+
+    resp = test_client.empty_project project_to_empty
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::EmptiedResource)
+    expect(resp.project_id).to eq(project_to_empty)
+    expect(resp.keys_deleted).to be true
   end
 end

@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   class OAuth2Client < Client
     include RubyLokaliseApi::Rest
-    
+
     def initialize(token, params = {})
       super(token, params)
       @token_header = 'Authorization'

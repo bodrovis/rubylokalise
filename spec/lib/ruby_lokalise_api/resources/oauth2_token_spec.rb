@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe RubyLokaliseApi::Resources::OAuth2Token do
   subject do
     described_class.new content: nil, endpoint: nil

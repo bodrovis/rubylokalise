@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 module RubyLokaliseApi
   module OAuth2
     class Auth
       attr_reader :client_id, :client_secret, :timeout, :open_timeout
+
+      OAUTH2_ENDPOINT = RubyLokaliseApi::Endpoints::OAuth2::OAuth2Endpoint
 
       def initialize(client_id, client_secret, params = {})
         @client_id = client_id
@@ -10,8 +14,12 @@ module RubyLokaliseApi
         @open_timeout = params[:open_timeout]
       end
 
+      def oauth2_endpoint
+        self.class.const_get(:OAUTH2_ENDPOINT)
+      end
+
       def auth(scope:, redirect_uri: nil, state: nil)
-        endpoint = RubyLokaliseApi::Endpoints::OAuth2::OAuth2Endpoint.new self
+        endpoint = oauth2_endpoint.new self
 
         scope = scope.join(' ') if scope.is_a?(Array)
 
@@ -26,7 +34,7 @@ module RubyLokaliseApi
       end
 
       def token(code)
-        endpoint = RubyLokaliseApi::Endpoints::OAuth2::OAuth2Endpoint.new(
+        endpoint = oauth2_endpoint.new(
           self,
           query: :token,
           req: common_params.merge(
@@ -39,7 +47,7 @@ module RubyLokaliseApi
       end
 
       def refresh(refresh_token)
-        endpoint = RubyLokaliseApi::Endpoints::OAuth2::OAuth2Endpoint.new(
+        endpoint = oauth2_endpoint.new(
           self,
           query: :token,
           req: common_params.merge(

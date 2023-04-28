@@ -4,7 +4,7 @@ RSpec.describe RubyLokaliseApi::Collections::Projects do
   let(:projects) do
     collection 'Projects',
                content: loaded_fixture('projects/projects'),
-               endpoint: endpoint('Projects', {}, test_client)
+               endpoint: endpoint('Projects', test_client)
   end
 
   let(:pagination_headers) do

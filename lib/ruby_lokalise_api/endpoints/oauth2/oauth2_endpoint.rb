@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RubyLokaliseApi
   module Endpoints
     module OAuth2
@@ -9,7 +11,7 @@ module RubyLokaliseApi
         private
 
         def base_query(fragment = nil)
-          [ fragment ]
+          [fragment]
         end
       end
     end

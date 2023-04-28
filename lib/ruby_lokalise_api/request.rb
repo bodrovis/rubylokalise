@@ -7,7 +7,7 @@ module RubyLokaliseApi
 
     # Lokalise returns pagination info in special headers
     PAGINATION_HEADERS = %w[x-pagination-total-count x-pagination-page-count x-pagination-limit
-      x-pagination-page].freeze
+                            x-pagination-page].freeze
 
     def get(endpoint)
       respond_with(

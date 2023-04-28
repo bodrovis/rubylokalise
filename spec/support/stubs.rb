@@ -1,23 +1,14 @@
 # frozen_string_literal: true
 
 module Stubs
-  def stub(uri:, resp: {}, req: {})
+  def stub(uri:, req: {}, resp: {})
+    base_url = req.fetch(:base_url, RubyLokaliseApi::Endpoints::MainEndpoint::BASE_URL)
+
     stub_request(
       req.fetch(:verb, :get),
-      "#{RubyLokaliseApi::Endpoints::MainEndpoint::BASE_URL}/#{uri}"
+      "#{base_url}/#{uri}"
     ).with(
       request_params(req)
-    ).to_return(
-      response_params(resp)
-    )
-  end
-
-  def stub_oauth2(uri:, resp: {}, req: {})
-    stub_request(
-      req.fetch(:verb, :get),
-      "#{RubyLokaliseApi::Endpoints::OAuth2::OAuth2Endpoint::BASE_URL}/#{uri}"
-    ).with(
-      request_params(req, true)
     ).to_return(
       response_params(resp)
     )
@@ -47,14 +38,14 @@ module Stubs
     params
   end
 
-  def request_params(req, skip_token = false)
+  def request_params(req)
     params = { headers: {
       'Accept' => 'application/json',
       'Accept-Encoding' => 'gzip,deflate,br',
-      'User-Agent' => "ruby-lokalise-api gem/#{RubyLokaliseApi::VERSION}",
+      'User-Agent' => "ruby-lokalise-api gem/#{RubyLokaliseApi::VERSION}"
     } }
 
-    params = add_auth_header(params, req) unless skip_token 
+    params = add_auth_header(params, req)
 
     # The default :object mode encode hashes in a way that's not properly
     # recognized by Webmock
@@ -66,6 +57,8 @@ module Stubs
   end
 
   def add_auth_header(params, req)
+    return params if req[:skip_token]
+
     token_header = req.fetch(:token_header, 'X-Api-Token')
     token = req.fetch(:token) { ENV.fetch('LOKALISE_API_TOKEN', nil) }
 

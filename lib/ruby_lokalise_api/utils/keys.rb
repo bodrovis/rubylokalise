@@ -5,11 +5,11 @@ module RubyLokaliseApi
     module Keys
       using RubyLokaliseApi::Utils::Strings
 
-      def data_key_for(model_class:)
-        key = if Module.const_defined? "RubyLokaliseApi::Resources::#{model_class}::DATA_KEY"
-                Module.const_get "RubyLokaliseApi::Resources::#{model_class}::DATA_KEY"
+      def data_key_for(klass:)
+        key = if Module.const_defined? "RubyLokaliseApi::Resources::#{klass}::DATA_KEY"
+                Module.const_get "RubyLokaliseApi::Resources::#{klass}::DATA_KEY"
               else
-                model_class
+                klass
               end
 
         key.snakecase

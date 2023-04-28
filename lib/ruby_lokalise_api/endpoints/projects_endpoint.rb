@@ -5,9 +5,9 @@ module RubyLokaliseApi
     class ProjectsEndpoint < MainEndpoint
       private
 
-      def base_query(project_id = nil)
+      def base_query(project_id = nil, action = nil)
         {
-          projects: project_id
+          projects: [project_id, action]
         }
       end
     end

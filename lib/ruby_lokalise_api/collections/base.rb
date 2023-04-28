@@ -79,33 +79,33 @@ module RubyLokaliseApi
 
         data_key_plural = collection_key_for klass: self.class.base_name
 
-        model_data = raw_response[:content][data_key_plural]
+        resources_data = raw_response[:content][data_key_plural]
         other_data = raw_response[:content].reject { |key, _| key == data_key_plural }
 
-        @collection = build_collection model_data, other_data
+        @collection = build_collection resources_data, other_data
       end
 
-      def build_collection(model_data, other_data)
-        model_data.map do |raw_model|
-          self.class.const_get(:RESOURCE).new(model_data(raw_model, other_data))
+      def build_collection(resources_data, other_data)
+        resources_data.map do |raw_resource|
+          self.class.const_get(:RESOURCE).new(resource_data(raw_resource, other_data))
         end
       end
 
-      def model_data(raw_model, other_data)
+      def resource_data(raw_resource, other_data)
         {
-          content: raw_model.merge(other_data),
+          content: raw_resource.merge(other_data),
           endpoint: self.class.const_get(:ENDPOINT).new(
             @endpoint.client,
-            query: query_for(raw_model, other_data)
+            query: query_for(raw_resource, other_data)
           )
         }
       end
 
-      def query_for(raw_model, other_data)
+      def query_for(raw_resource, other_data)
         main_params = self.class.const_get(:RESOURCE).const_get(:MAIN_PARAMS).to_array
 
         main_params.map do |param|
-          other_data[param] || raw_model[param] || nil
+          other_data[param] || raw_resource[param] || nil
         end
       end
     end

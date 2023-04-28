@@ -48,3 +48,10 @@ RSpec/MessageSpies:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/FilePath:
+  CustomTransform:
+    OAuth2: oauth2
+    OAuth2Client: oauth2_client
+    OAuth2Token: oauth2_token
+    OAuth2RefreshedToken: oauth2_refreshed_token

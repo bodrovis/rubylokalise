@@ -5,6 +5,7 @@ module RubyLokaliseApi
     include RubyLokaliseApi::Concerns::HashAccessible
 
     DeletedResource = Class.new(self)
+    EmptiedResource = Class.new(self)
 
     def initialize(raw_data)
       raw_data.each do |att, val|

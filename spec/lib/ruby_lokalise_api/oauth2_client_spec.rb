@@ -12,7 +12,7 @@ RSpec.describe RubyLokaliseApi::OAuth2Client do
     )
 
     contributor = test_oauth2_client.contributor(project_id, user_id)
-    
+
     expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
     expect(contributor.user_id).to eq(user_id)
 

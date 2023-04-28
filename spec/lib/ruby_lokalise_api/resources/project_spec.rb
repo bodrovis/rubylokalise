@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
   let(:project_id) { loaded_project_fixture['project_id'] }
 
   let(:project_endpoint) do
-    endpoint 'Projects', { query: [project_id] }, test_client
+    endpoint 'Projects', test_client, query: [project_id]
   end
 
   let(:project) do
@@ -32,7 +32,7 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
     created_project_id = created_project_fixture['project_id']
     created_project = resource 'Project',
                                content: created_project_fixture,
-                               endpoint: endpoint('Projects', { query: [created_project_id] }, test_client)
+                               endpoint: endpoint('Projects', test_client, query: [created_project_id])
 
     stub(
       uri: "projects/#{created_project_id}",
@@ -44,6 +44,20 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
     expect(resp.project_id).to eq(created_project_id)
     expect(resp['project_id']).to eq(created_project_id)
     expect(resp.project_deleted).to be true
+  end
+
+  specify '#empty' do
+    stub(
+      uri: "projects/#{project_id}/empty",
+      req: { verb: :put },
+      resp: { body: fixture('projects/empty_project2') }
+    )
+
+    resp = project.empty
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::EmptiedResource)
+    expect(resp.project_id).to eq(project_id)
+    expect(resp.keys_deleted).to be true
   end
 
   specify '#key_comment' do

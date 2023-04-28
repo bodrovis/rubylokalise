@@ -6,9 +6,8 @@ RSpec.describe RubyLokaliseApi::Resources::Base do
   end
 
   let(:base_endpoint) do
-    endpoint 'Base', { query: [] }, test_client
+    endpoint 'Base', test_client, query: []
   end
-
 
   it_behaves_like 'hash accessible'
 end
