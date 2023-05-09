@@ -12,7 +12,7 @@ module RubyLokaliseApi
       def_delegators :collection, :[], :last, :each
 
       attr_reader :total_pages, :total_results, :results_per_page, :current_page,
-                  :collection
+                  :collection, :content
 
       def initialize(raw_response)
         @endpoint = raw_response[:endpoint]
@@ -94,7 +94,7 @@ module RubyLokaliseApi
       def resource_data(raw_resource, other_data)
         {
           content: raw_resource.merge(other_data),
-          endpoint: self.class.const_get(:ENDPOINT).new(
+          endpoint: resource_endpoint.new(
             @endpoint.client,
             query: query_for(raw_resource, other_data)
           )
@@ -106,6 +106,14 @@ module RubyLokaliseApi
 
         main_params.map do |param|
           other_data[param] || raw_resource[param] || nil
+        end
+      end
+
+      def resource_endpoint
+        if self.class.const_defined?(:RESOURCES_ENDPOINT)
+          self.class.const_get(:RESOURCES_ENDPOINT)
+        else
+          self.class.const_get(:ENDPOINT)
         end
       end
     end

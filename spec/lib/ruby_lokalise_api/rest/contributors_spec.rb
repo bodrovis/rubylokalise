@@ -43,4 +43,64 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
     expect(contributor.user_id).to eq(20_181)
     expect(contributor.project_id).to eq(project_id)
   end
+
+  specify '#create_contributors' do
+    contributor_data = {
+      email: 'ruby@contributor.sample',
+      fullname: 'Ruby Contributor',
+      is_admin: true
+    }
+
+    stub(
+      uri: "projects/#{project_id}/contributors",
+      req: { body: { contributors: [contributor_data] }, verb: :post },
+      resp: { body: fixture('contributors/create_contributor') }
+    )
+
+    contributors = test_client.create_contributors project_id, contributor_data
+
+    expect(contributors).to be_an_instance_of(RubyLokaliseApi::Collections::Contributors)
+
+    contributor = contributors[0]
+
+    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
+    expect(contributor.project_id).to eq(project_id)
+    expect(contributor.fullname).to eq(contributor_data[:fullname])
+  end
+
+  specify '#update_contributor' do
+    update_contributor_id = 269_338
+
+    contributor_data = {
+      is_reviewer: true
+    }
+
+    stub(
+      uri: "projects/#{project_id}/contributors/#{update_contributor_id}",
+      req: { body: contributor_data, verb: :put },
+      resp: { body: fixture('contributors/update_contributor') }
+    )
+
+    contributor = test_client.update_contributor project_id, update_contributor_id, contributor_data
+
+    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
+    expect(contributor.user_id).to eq(update_contributor_id)
+    expect(contributor.is_reviewer).to be true
+  end
+
+  specify '#destroy_contributor' do
+    contributor_to_delete = 269_338
+
+    stub(
+      uri: "projects/#{project_id}/contributors/#{contributor_to_delete}",
+      req: { verb: :delete },
+      resp: { body: fixture('contributors/destroy_contributor') }
+    )
+
+    resp = test_client.destroy_contributor(project_id, contributor_to_delete)
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
+    expect(resp.project_id).to eq(project_id)
+    expect(resp.contributor_deleted).to be true
+  end
 end

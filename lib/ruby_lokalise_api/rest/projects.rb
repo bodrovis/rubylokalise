@@ -29,10 +29,6 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Resources::Project]
       # @param req_params [Hash]
       def create_project(req_params)
-        # validation = RubyLokaliseApi::Contracts::NewProjectContract.new.call(req_params)
-
-        # return validation.errors unless validation.success?
-
         endpoint_resource names: { endpoint: 'Projects', resource: 'Project' },
                           params: { req: req_params },
                           verb: :post
