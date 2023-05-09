@@ -36,10 +36,10 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
 
     contributors = test_client.contributors project_id
     expect(contributors.collection.length).to eq(3)
+    expect_to_have_valid_resources(contributors)
 
     contributor = contributors[0]
 
-    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
     expect(contributor.user_id).to eq(20_181)
     expect(contributor.project_id).to eq(project_id)
   end
@@ -60,10 +60,10 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
     contributors = test_client.create_contributors project_id, contributor_data
 
     expect(contributors).to be_an_instance_of(RubyLokaliseApi::Collections::Contributors)
+    expect_to_have_valid_resources(contributors)
 
     contributor = contributors[0]
 
-    expect(contributor).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
     expect(contributor.project_id).to eq(project_id)
     expect(contributor.fullname).to eq(contributor_data[:fullname])
   end

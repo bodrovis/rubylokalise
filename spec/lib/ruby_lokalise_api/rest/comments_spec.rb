@@ -31,10 +31,10 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
 
     comments = test_client.comments project_id, key_id
     expect(comments.collection.length).to eq(3)
+    expect_to_have_valid_resources(comments)
 
     comment = comments[0]
 
-    expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
     expect(comment.comment_id).to eq(16_588_650)
     expect(comment.project_id).to eq(project_id)
   end
@@ -46,10 +46,10 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
     )
 
     comments = test_client.project_comments project_id
+    expect_to_have_valid_resources(comments)
 
     comment = comments[0]
 
-    expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
     expect(comment.comment_id).to eq(16_588_650)
     expect(comment.project_id).to eq(project_id)
   end
@@ -69,10 +69,10 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
 
       expect(comments).to be_an_instance_of(RubyLokaliseApi::Collections::KeyComments)
       expect(comments.collection.length).to eq(1)
+      expect_to_have_valid_resources(comments)
 
       comment = comments[0]
 
-      expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
       expect(comment.project_id).to eq(project_id)
       expect(comment.comment).to eq(comment_data[:comment])
     end
@@ -92,10 +92,10 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
 
       expect(comments).to be_an_instance_of(RubyLokaliseApi::Collections::KeyComments)
       expect(comments.collection.length).to eq(2)
+      expect_to_have_valid_resources(comments)
 
       comment = comments[0]
 
-      expect(comment).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
       expect(comment.project_id).to eq(project_id)
       expect(comment.comment).to eq(comment_data[0][:comment])
     end

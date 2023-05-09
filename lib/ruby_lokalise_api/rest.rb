@@ -6,6 +6,7 @@ module RubyLokaliseApi
 
     include Rest::Comments
     include Rest::Contributors
+    include Rest::CustomTranslationStatuses
     include Rest::Projects
   end
 end

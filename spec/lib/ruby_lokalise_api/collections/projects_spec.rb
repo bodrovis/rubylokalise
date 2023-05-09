@@ -77,6 +77,7 @@ RSpec.describe RubyLokaliseApi::Collections::Projects do
     next_page_projects = projects_page_one.next_page
 
     expect(next_page_projects).to be_an_instance_of described_class
+    expect_to_have_valid_resources(next_page_projects)
     expect(next_page_projects[0].name).to eq('API')
 
     expect(next_page_projects.prev_page?).to be true

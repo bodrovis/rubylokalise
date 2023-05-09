@@ -15,7 +15,7 @@ module RubyLokaliseApi
                   :collection, :content
 
       def initialize(raw_response)
-        @endpoint = raw_response[:endpoint]
+        @self_endpoint = raw_response[:endpoint]
 
         populate_pagination_from raw_response
         produce_collection_from raw_response
@@ -61,8 +61,8 @@ module RubyLokaliseApi
 
       private
 
-      def reinit_endpoint(req_params: @endpoint.req_params, override_req_params: {})
-        @endpoint.reinitialize(
+      def reinit_endpoint(req_params: @self_endpoint.req_params, override_req_params: {})
+        @self_endpoint.reinitialize(
           req_params: req_params.merge(override_req_params)
         )
       end
@@ -95,7 +95,7 @@ module RubyLokaliseApi
         {
           content: raw_resource.merge(other_data),
           endpoint: resource_endpoint.new(
-            @endpoint.client,
+            @self_endpoint.client,
             query: query_for(raw_resource, other_data)
           )
         }

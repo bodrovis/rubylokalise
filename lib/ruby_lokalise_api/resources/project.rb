@@ -10,7 +10,7 @@ module RubyLokaliseApi
       # @see https://developers.lokalise.com/reference/empty-a-project
       # @return [RubyLokaliseApi::Generics::EmptiedResource]
       def empty
-        ep = endpoint 'Projects', @endpoint.client, query: [@project_id, :empty]
+        ep = endpoint 'Projects', @self_endpoint.client, query: [@project_id, :empty]
 
         RubyLokaliseApi::Generics::EmptiedResource.new ep.do_put[:content]
       end
@@ -23,7 +23,7 @@ module RubyLokaliseApi
         endpoint_resource(
           names: { endpoint: 'KeyComments', resource: 'Comment' },
           params: { query: [@project_id, key_id, comment_id] },
-          client: @endpoint.client
+          client: @self_endpoint.client
         )
       end
     end

@@ -10,7 +10,7 @@ module RubyLokaliseApi
       include RubyLokaliseApi::Utils::Keys
 
       def initialize(raw_response)
-        @endpoint = raw_response[:endpoint]
+        @self_endpoint = raw_response[:endpoint]
 
         populate_attrs_from raw_response[:content]
 
@@ -67,7 +67,7 @@ module RubyLokaliseApi
           instance_variable_get "@#{param}"
         end
 
-        @endpoint.reinitialize(query_params: query_params, req_params: req_params)
+        @self_endpoint.reinitialize(query_params: query_params, req_params: req_params)
       end
 
       def populate_attrs_from(content)

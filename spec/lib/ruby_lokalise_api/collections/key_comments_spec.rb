@@ -35,7 +35,7 @@ RSpec.describe RubyLokaliseApi::Collections::KeyComments do
     comments = test_client.comments project_id, key_id, pagination_params
 
     expect(comments.collection.length).to eq(2)
-    expect(comments[0]).to be_an_instance_of(RubyLokaliseApi::Resources::Comment)
+    expect_to_have_valid_resources(comments)
     expect(comments.next_page?).to be true
     expect(comments.prev_page?).to be false
 

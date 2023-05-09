@@ -47,6 +47,7 @@ RSpec.describe RubyLokaliseApi::Rest::Projects do
     )
 
     projects = test_client.projects req_params
+    expect_to_have_valid_resources(projects)
 
     expect(projects.collection.length).to eq(2)
     expect(projects[0].project_id).to eq('44749534644685cf3410d0.03071739')

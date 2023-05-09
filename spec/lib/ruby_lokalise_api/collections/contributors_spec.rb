@@ -34,7 +34,7 @@ RSpec.describe RubyLokaliseApi::Collections::Contributors do
     contributors = test_client.contributors project_id, pagination_params
 
     expect(contributors.collection.length).to eq(2)
-    expect(contributors[0]).to be_an_instance_of(RubyLokaliseApi::Resources::Contributor)
+    expect_to_have_valid_resources(contributors)
     expect(contributors.next_page?).to be true
     expect(contributors.prev_page?).to be false
 

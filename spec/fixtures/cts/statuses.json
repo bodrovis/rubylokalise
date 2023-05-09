@@ -1,0 +1,20 @@
+{
+  "project_id": "20603843642073fe124fb8.14291681",
+  "custom_translation_statuses": [
+    {
+      "status_id": 14421,
+      "title": "approved",
+      "color": "#0079bf"
+    },
+    {
+      "status_id": 14419,
+      "title": "context",
+      "color": "#61bd4f"
+    },
+    {
+      "status_id": 14420,
+      "title": "wip",
+      "color": "#f2d600"
+    }
+  ]
+}
