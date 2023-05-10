@@ -6,6 +6,7 @@ module RubyLokaliseApi
 
     DeletedResource = Class.new(self)
     EmptiedResource = Class.new(self)
+    CustomStatusAvailableColors = Class.new(self)
 
     def initialize(raw_data)
       raw_data.each do |att, val|

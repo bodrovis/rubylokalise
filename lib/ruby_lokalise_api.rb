@@ -5,7 +5,6 @@ require 'faraday'
 require 'faraday/gzip'
 require 'yaml'
 require 'addressable/template'
-require 'dry/validation'
 
 loader = Zeitwerk::Loader.for_gem
 loader.inflector.inflect(

@@ -7,6 +7,7 @@ branch:
   - created_by_email
 comment:
   - project_id
+  - branch
   - comment_id
   - key_id
   - comment
@@ -16,6 +17,7 @@ comment:
   - added_at_timestamp
 contributor:
   - project_id
+  - branch
   - user_id
   - email
   - fullname
@@ -26,6 +28,8 @@ contributor:
   - languages
   - admin_rights
 custom_translation_status:
+  - project_id
+  - branch
   - status_id
   - title
   - color
