@@ -93,6 +93,11 @@ RSpec.describe RubyLokaliseApi::Rest::CustomTranslationStatuses do
   end
 
   specify '#custom_translation_status_colors' do
+    stub(
+      uri: "projects/#{project_id}/custom_translation_statuses/colors",
+      resp: { body: fixture('cts/colors') }
+    )
+
     res = test_client.custom_translation_status_colors project_id
 
     expect(res).to be_an_instance_of(RubyLokaliseApi::Generics::CustomStatusAvailableColors)
