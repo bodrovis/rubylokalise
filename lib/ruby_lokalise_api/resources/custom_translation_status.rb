@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   module Resources
     class CustomTranslationStatus < Base
-      MAIN_PARAMS = %w[project_id status_id].freeze
+      MAIN_PARAMS = %i[project_id status_id].freeze
     end
   end
 end

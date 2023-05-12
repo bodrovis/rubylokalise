@@ -16,6 +16,18 @@ RSpec.describe RubyLokaliseApi::Resources::CustomTranslationStatus do
 
   let(:status_id) { status.status_id }
 
+  specify '#reload_data' do
+    stub(
+      uri: "projects/#{project_id}/custom_translation_statuses/#{status_id}",
+      resp: { body: fixture('cts/status') }
+    )
+
+    reloaded_status = status.reload_data
+
+    expect(reloaded_status.status_id).to eq(status_id)
+    expect(reloaded_status.project_id).to eq(project_id)
+  end
+
   specify '#update' do
     data = {
       title: 'ruby3'

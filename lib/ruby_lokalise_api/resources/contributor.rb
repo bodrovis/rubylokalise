@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   module Resources
     class Contributor < Base
-      MAIN_PARAMS = %w[project_id user_id].freeze
+      MAIN_PARAMS = %i[project_id user_id].freeze
     end
   end
 end

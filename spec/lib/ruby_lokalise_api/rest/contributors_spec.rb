@@ -12,6 +12,7 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
 
     contributor = test_client.contributor project_id, user_id
 
+    expect(contributor.project_id).to eq(project_id)
     expect(contributor.user_id).to eq(user_id)
     expect(contributor.email).to eq('bodrovis@protonmail.com')
     expect(contributor.fullname).to eq('Ilya B')

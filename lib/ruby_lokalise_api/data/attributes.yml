@@ -34,6 +34,9 @@ custom_translation_status:
   - title
   - color
 file:
+  - branch
+  - project_id
+  - file_id
   - filename
   - key_count
 jwt:
@@ -110,6 +113,8 @@ project:
   - settings
   - statistics
 queued_process:
+  - project_id
+  - branch
   - process_id
   - type
   - status

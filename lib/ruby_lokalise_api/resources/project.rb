@@ -3,7 +3,7 @@
 module RubyLokaliseApi
   module Resources
     class Project < Base
-      MAIN_PARAMS = 'project_id'
+      MAIN_PARAMS = :project_id
 
       # Empties the current project by removing all keys and translations
       #

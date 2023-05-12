@@ -15,6 +15,18 @@ RSpec.describe RubyLokaliseApi::Resources::Contributor do
 
   let(:contributor_id) { contributor.user_id }
 
+  specify '#reload_data' do
+    stub(
+      uri: "projects/#{project_id}/contributors/#{contributor_id}",
+      resp: { body: fixture('contributors/contributor2') }
+    )
+
+    reloaded_contributor = contributor.reload_data
+
+    expect(reloaded_contributor.user_id).to eq(contributor_id)
+    expect(reloaded_contributor.project_id).to eq(project_id)
+  end
+
   specify '#update' do
     contributor_data = {
       is_reviewer: true
