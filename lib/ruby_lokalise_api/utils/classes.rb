@@ -12,6 +12,10 @@ module RubyLokaliseApi
         def to_array
           is_a?(Array) ? self : [self]
         end
+
+        def to_array_obj(key)
+          { key => to_array }
+        end
       end
     end
   end

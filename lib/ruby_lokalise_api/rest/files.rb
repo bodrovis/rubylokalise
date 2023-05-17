@@ -10,8 +10,12 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def files(project_id, req_params = {})
-        endpoint_collection names: { endpoint: 'Files', collection: 'Files' },
-                            params: { query: project_id, req: req_params }
+        name = 'Files'
+        params = { query: project_id, req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
       end
 
       # Uploads translation file to the project in the background
@@ -21,13 +25,13 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def upload_file(project_id, req_params)
-        files_ep = endpoint 'Files', self, query: [project_id, :upload], req: req_params
+        params = { query: [project_id, :upload], req: req_params }
 
-        response = files_ep.do_post
+        response = endpoint(name: 'Files', params: params).do_post
 
         process_id = response.dig(:content, 'process', 'process_id')
 
-        process_ep = endpoint 'QueuedProcesses', self, query: [project_id, process_id]
+        process_ep = endpoint name: 'QueuedProcesses', params: { query: [project_id, process_id] }
 
         response[:endpoint] = process_ep
 
@@ -41,9 +45,11 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def download_files(project_id, req_params)
-        ep = endpoint 'Files', self, query: [project_id, :download], req: req_params
+        params = { query: [project_id, :download], req: req_params }
 
-        RubyLokaliseApi::Generics::DownloadBundle.new ep.do_post[:content]
+        data = endpoint(name: 'Files', params: params).do_post
+
+        RubyLokaliseApi::Generics::DownloadBundle.new data[:content]
       end
 
       # Deletes a single file from the project.
@@ -54,8 +60,11 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param file_id [String, Integer]
       def destroy_file(project_id, file_id)
-        endpoint_delete endpoint: 'Files',
-                        params: { query: [project_id, file_id] }
+        params = { query: [project_id, file_id] }
+
+        data = endpoint(name: 'Files', params: params).do_delete
+
+        RubyLokaliseApi::Generics::DeletedResource.new data[:content]
       end
     end
   end

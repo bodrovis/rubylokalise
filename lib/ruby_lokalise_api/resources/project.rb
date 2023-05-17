@@ -10,9 +10,10 @@ module RubyLokaliseApi
       # @see https://developers.lokalise.com/reference/empty-a-project
       # @return [RubyLokaliseApi::Generics::EmptiedResource]
       def empty
-        ep = endpoint 'Projects', @self_endpoint.client, query: [@project_id, :empty]
+        params = { query: [@project_id, :empty] }
+        response = endpoint(name: 'Projects', client: @self_endpoint.client, params: params).do_put
 
-        RubyLokaliseApi::Generics::EmptiedResource.new ep.do_put[:content]
+        RubyLokaliseApi::Generics::EmptiedResource.new response[:content]
       end
 
       # Fetches a key comment within the current project
@@ -20,11 +21,11 @@ module RubyLokaliseApi
       # @see https://developers.lokalise.com/reference/retrieve-a-comment
       # @return [RubyLokaliseApi::Resources::Comment]
       def key_comment(key_id, comment_id)
-        endpoint_resource(
-          names: { endpoint: 'KeyComments', resource: 'Comment' },
-          params: { query: [@project_id, key_id, comment_id] },
-          client: @self_endpoint.client
-        )
+        params = { query: [@project_id, key_id, comment_id] }
+
+        key_comments = endpoint(name: 'KeyComments', client: @self_endpoint.client, params: params).do_get
+
+        resource 'Comment', key_comments
       end
     end
   end

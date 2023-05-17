@@ -9,8 +9,11 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Resources::Project]
       # @param project_id [String]
       def project(project_id)
-        endpoint_resource names: { endpoint: 'Projects', resource: 'Project' },
-                          params: { query: project_id }
+        params = { query: project_id }
+
+        data = endpoint(name: 'Projects', params: params).do_get
+
+        resource 'Project', data
       end
 
       # Returns a collection of projects
@@ -19,8 +22,12 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Collections::Projects]
       # @param req_params [Hash]
       def projects(req_params = {})
-        endpoint_collection names: { endpoint: 'Projects', collection: 'Projects' },
-                            params: { req: req_params }
+        name = 'Projects'
+        params = { req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
       end
 
       # Creates a project
@@ -29,9 +36,11 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Resources::Project]
       # @param req_params [Hash]
       def create_project(req_params)
-        endpoint_resource names: { endpoint: 'Projects', resource: 'Project' },
-                          params: { req: req_params },
-                          verb: :post
+        params = { req: req_params }
+
+        data = endpoint(name: 'Projects', params: params).do_post
+
+        resource 'Project', data
       end
 
       # Updates a project
@@ -41,9 +50,11 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def update_project(project_id, req_params)
-        endpoint_resource names: { endpoint: 'Projects', resource: 'Project' },
-                          params: { query: project_id, req: req_params },
-                          verb: :put
+        params = { query: project_id, req: req_params }
+
+        data = endpoint(name: 'Projects', params: params).do_put
+
+        resource 'Project', data
       end
 
       # Deletes a project
@@ -52,8 +63,11 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Generics::DeletedResource]
       # @param project_id [String]
       def destroy_project(project_id)
-        endpoint_delete endpoint: 'Projects',
-                        params: { query: project_id }
+        params = { query: project_id }
+
+        data = endpoint(name: 'Projects', params: params).do_delete
+
+        RubyLokaliseApi::Generics::DeletedResource.new data[:content]
       end
 
       # Empties a project by deleting all keys and translations
@@ -62,9 +76,9 @@ module RubyLokaliseApi
       # @return [RubyLokaliseApi::Generics::EmptiedResource]
       # @param project_id [String]
       def empty_project(project_id)
-        ep = endpoint 'Projects', self, query: [project_id, :empty]
+        data = endpoint(name: 'Projects', params: { query: [project_id, :empty] }).do_put
 
-        RubyLokaliseApi::Generics::EmptiedResource.new ep.do_put[:content]
+        RubyLokaliseApi::Generics::EmptiedResource.new data[:content]
       end
     end
   end

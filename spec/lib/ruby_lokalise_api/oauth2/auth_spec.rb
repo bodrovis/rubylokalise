@@ -18,7 +18,7 @@ RSpec.describe RubyLokaliseApi::OAuth2::Auth do
 
       expect(uri).to include(base_url)
       expect(uri).to include('oauth2/auth?client_id=')
-      expect(uri).to include("&scope=#{scopes.join('+')}")
+      expect(uri).to include("&scope=#{scopes.join('%20')}")
     end
 
     it 'allows to set redirect_uri' do

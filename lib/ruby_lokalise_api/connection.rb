@@ -3,9 +3,9 @@
 module RubyLokaliseApi
   module Connection
     def connection(endpoint)
-      Faraday.new(options(endpoint), request_params_for(endpoint.client)) do |f|
-        f.adapter Faraday.default_adapter
-        f.request(:gzip)
+      Faraday.new(options(endpoint), request_params_for(endpoint.client)) do |faraday|
+        faraday.adapter Faraday.default_adapter
+        faraday.request(:gzip)
       end
     end
 

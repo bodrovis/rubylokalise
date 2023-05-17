@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Resources::Base do
   end
 
   let(:base_endpoint) do
-    endpoint 'Base', test_client, query: []
+    endpoint name: 'Base', client: test_client, params: { query: [] }
   end
 
   specify '#[]' do

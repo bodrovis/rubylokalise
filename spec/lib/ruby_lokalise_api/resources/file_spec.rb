@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Resources::File do
   let(:project_id) { loaded_files_fixture['project_id'] }
 
   let(:files_endpoint) do
-    endpoint 'Files', test_client, query: [project_id]
+    endpoint name: 'Files', client: test_client, params: { query: [project_id] }
   end
 
   let(:files) do

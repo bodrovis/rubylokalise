@@ -8,7 +8,7 @@ module Fixtures
       cached_stubs = Pathname.glob("#{fixture_path}/**/*.json").each_with_object({}) do |full_path, result|
         result[
           full_path.relative_path_from(fixture_path).sub_ext('').to_s
-        ] = File.read(full_path)
+        ] = File.read(full_path).freeze
       end
 
       const_set :STUBS, cached_stubs

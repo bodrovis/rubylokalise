@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Connection do
   let(:dummy) { Class.new { include RubyLokaliseApi::Connection }.new }
 
   let(:project_endpoint) do
-    endpoint 'Projects', test_client, query: [project_id]
+    endpoint name: 'Projects', client: test_client, params: { query: [project_id] }
   end
 
   before { RubyLokaliseApi.reset_client! }
@@ -28,7 +28,7 @@ RSpec.describe RubyLokaliseApi::Connection do
     custom_client = RubyLokaliseApi.client(ENV.fetch('LOKALISE_API_TOKEN', nil),
                                            open_timeout: 100, timeout: 500)
 
-    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
+    custom_endpoint = endpoint name: 'Projects', client: custom_client, params: { query: [project_id] }
 
     conn = dummy.connection custom_endpoint
 
@@ -39,8 +39,6 @@ RSpec.describe RubyLokaliseApi::Connection do
     custom_client.timeout = 300
     custom_client.open_timeout = 200
 
-    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
-
     another_conn = dummy.connection custom_endpoint
 
     expect(another_conn.options.timeout).to eq(300)
@@ -50,9 +48,7 @@ RSpec.describe RubyLokaliseApi::Connection do
   it 'gzip compression is on by default' do
     custom_client = RubyLokaliseApi.client(ENV.fetch('LOKALISE_API_TOKEN', nil))
 
-    custom_endpoint = endpoint 'Projects', custom_client, query: [project_id]
-
-    conn = dummy.connection custom_endpoint
+    conn = dummy.connection project_endpoint
 
     expect(conn.headers['X-api-token']).to eq(custom_client.token)
     expect(conn.builder.handlers).to include(Faraday::Gzip::Middleware)

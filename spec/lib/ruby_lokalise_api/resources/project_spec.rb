@@ -6,7 +6,7 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
   let(:project_id) { loaded_project_fixture['project_id'] }
 
   let(:project_endpoint) do
-    endpoint 'Projects', test_client, query: [project_id]
+    endpoint name: 'Projects', client: test_client, params: { query: [project_id] }
   end
 
   let(:project) do
@@ -30,9 +30,10 @@ RSpec.describe RubyLokaliseApi::Resources::Project do
   specify '#destroy' do
     created_project_fixture = loaded_fixture('projects/create_project')
     created_project_id = created_project_fixture['project_id']
+    created_project_endpoint = endpoint(name: 'Projects', client: test_client, params: { query: [created_project_id] })
     created_project = resource 'Project',
                                content: created_project_fixture,
-                               endpoint: endpoint('Projects', test_client, query: [created_project_id])
+                               endpoint: created_project_endpoint
 
     stub(
       uri: "projects/#{created_project_id}",

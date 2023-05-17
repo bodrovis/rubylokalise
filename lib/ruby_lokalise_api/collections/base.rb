@@ -28,7 +28,7 @@ module RubyLokaliseApi
 
         self.class.new(
           reinit_endpoint(
-            override_req_params: { page: @current_page + 1 }
+            override_req_params: { page: current_page + 1 }
           ).do_get
         )
       end
@@ -38,13 +38,13 @@ module RubyLokaliseApi
 
         self.class.new(
           reinit_endpoint(
-            override_req_params: { page: @current_page - 1 }
+            override_req_params: { page: current_page - 1 }
           ).do_get
         )
       end
 
       def next_page?
-        @current_page.positive? && @current_page < @total_pages
+        current_page.positive? && current_page < total_pages
       end
 
       def last_page?
@@ -52,7 +52,7 @@ module RubyLokaliseApi
       end
 
       def prev_page?
-        @current_page > 1
+        current_page > 1
       end
 
       def first_page?
@@ -75,12 +75,13 @@ module RubyLokaliseApi
       end
 
       def produce_collection_from(raw_response)
-        return unless raw_response[:content]
+        content = raw_response[:content]
+        return unless content
 
         data_key_plural = collection_key_for klass: self.class.base_name
 
-        resources_data = raw_response[:content][data_key_plural]
-        other_data = raw_response[:content].reject { |key, _| key == data_key_plural }
+        resources_data = content[data_key_plural]
+        other_data = content.reject { |key, _| key == data_key_plural }
 
         @collection = build_collection resources_data, other_data
       end
@@ -110,11 +111,9 @@ module RubyLokaliseApi
       end
 
       def resource_endpoint
-        if self.class.const_defined?(:RESOURCES_ENDPOINT)
-          self.class.const_get(:RESOURCES_ENDPOINT)
-        else
-          self.class.const_get(:ENDPOINT)
-        end
+        klass = self.class
+
+        klass.const_defined?(:RESOURCES_ENDPOINT) ? klass.const_get(:RESOURCES_ENDPOINT) : klass.const_get(:ENDPOINT)
       end
     end
   end

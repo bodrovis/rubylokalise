@@ -6,7 +6,8 @@ RSpec.describe RubyLokaliseApi::Resources::Contributor do
   let(:project_id) { loaded_contributor_fixture['project_id'] }
 
   let(:contributor_endpoint) do
-    endpoint 'Contributors', test_client, query: [project_id, loaded_contributor_fixture['contributor']['user_id']]
+    params = { query: [project_id, loaded_contributor_fixture['contributor']['user_id']] }
+    endpoint name: 'Contributors', client: test_client, params: params
   end
 
   let(:contributor) do

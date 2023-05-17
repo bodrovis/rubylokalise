@@ -6,14 +6,8 @@ RSpec.describe RubyLokaliseApi::Resources::QueuedProcess do
   let(:project_id) { process_fixture['project_id'] }
 
   let(:process_endpoint) do
-    endpoint(
-      'QueuedProcesses',
-      test_client,
-      query: [
-        project_id,
-        process_fixture['process']['process_id']
-      ]
-    )
+    params = { query: [project_id, process_fixture['process']['process_id']] }
+    endpoint name: 'QueuedProcesses', client: test_client, params: params
   end
 
   let(:process) do

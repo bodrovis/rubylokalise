@@ -3,6 +3,8 @@
 module RubyLokaliseApi
   module Rest
     module Comments
+      using RubyLokaliseApi::Utils::Classes
+
       # Returns a single key comment
       #
       # @see https://developers.lokalise.com/reference/retrieve-a-comment
@@ -11,8 +13,11 @@ module RubyLokaliseApi
       # @param key_id [String, Integer]
       # @param comment_id [String, Integer]
       def comment(project_id, key_id, comment_id)
-        endpoint_resource names: { endpoint: 'KeyComments', resource: 'Comment' },
-                          params: { query: [project_id, key_id, comment_id] }
+        params = { query: [project_id, key_id, comment_id] }
+
+        data = endpoint(name: 'KeyComments', params: params).do_get
+
+        resource 'Comment', data
       end
 
       # Returns all comments for a key
@@ -23,8 +28,12 @@ module RubyLokaliseApi
       # @param key_id [String, Integer]
       # @param req_params [Hash]
       def comments(project_id, key_id, req_params = {})
-        endpoint_collection names: { endpoint: 'KeyComments', collection: 'KeyComments' },
-                            params: { query: [project_id, key_id], req: req_params }
+        name = 'KeyComments'
+        params = { query: [project_id, key_id], req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
       end
 
       # Returns all comments for a project
@@ -34,8 +43,12 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def project_comments(project_id, req_params = {})
-        endpoint_collection names: { endpoint: 'ProjectComments', collection: 'ProjectComments' },
-                            params: { query: [project_id], req: req_params }
+        name = 'ProjectComments'
+        params = { query: project_id, req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
       end
 
       # Creates one or multiple comments for a key
@@ -46,9 +59,12 @@ module RubyLokaliseApi
       # @param key_id [String, Integer]
       # @param req_params [Hash, Array]
       def create_comments(project_id, key_id, req_params)
-        endpoint_collection names: { endpoint: 'KeyComments', collection: 'KeyComments' },
-                            params: { query: [project_id, key_id], req: to_comments_obj(req_params) },
-                            verb: :post
+        name = 'KeyComments'
+        params = { query: [project_id, key_id], req: req_params.to_array_obj(:comments) }
+
+        data = endpoint(name: name, params: params).do_post
+
+        collection name, data
       end
 
       # Deletes a single key comment
@@ -59,16 +75,11 @@ module RubyLokaliseApi
       # @param key_id [String, Integer]
       # @param comment_id [String, Integer]
       def destroy_comment(project_id, key_id, comment_id)
-        endpoint_delete endpoint: 'KeyComments',
-                        params: { query: [project_id, key_id, comment_id] }
-      end
+        params = { query: [project_id, key_id, comment_id] }
 
-      private
+        data = endpoint(name: 'KeyComments', params: params).do_delete
 
-      def to_comments_obj(raw_data)
-        raw_data = [raw_data] unless raw_data.is_a?(Array)
-
-        { comments: raw_data }
+        RubyLokaliseApi::Generics::DeletedResource.new data[:content]
       end
     end
   end

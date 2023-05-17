@@ -19,18 +19,14 @@ module RubyLokaliseApi
       end
 
       def auth(scope:, redirect_uri: nil, state: nil)
-        endpoint = oauth2_endpoint.new self
-
-        scope = scope.join(' ') if scope.is_a?(Array)
-
-        params = {
+        get_params = {
           client_id: client_id,
-          scope: scope
+          scope: (scope.is_a?(Array) ? scope.join(' ') : scope),
+          state: state,
+          redirect_uri: redirect_uri
         }
-        params[:state] = state unless state.nil?
-        params[:redirect_uri] = redirect_uri unless redirect_uri.nil?
 
-        _build_url_from endpoint, params
+        oauth2_endpoint.new(self, query: 'auth', get: get_params).full_uri
       end
 
       def token(code)
@@ -66,16 +62,6 @@ module RubyLokaliseApi
           client_id: @client_id,
           client_secret: @client_secret
         }
-      end
-
-      def _build_url_from(endpoint, params)
-        uri = URI(endpoint.base_url)
-
-        URI::HTTPS.build(
-          host: uri.host,
-          path: "#{uri.path}/auth",
-          query: URI.encode_www_form(params)
-        ).to_s
       end
     end
   end

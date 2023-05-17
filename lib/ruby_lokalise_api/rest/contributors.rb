@@ -3,6 +3,8 @@
 module RubyLokaliseApi
   module Rest
     module Contributors
+      using RubyLokaliseApi::Utils::Classes
+
       # Returns a single contributor
       #
       # @see https://developers.lokalise.com/reference/retrieve-a-contributor
@@ -10,8 +12,11 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param contributor_id [String, Integer]
       def contributor(project_id, contributor_id)
-        endpoint_resource names: { endpoint: 'Contributors', resource: 'Contributor' },
-                          params: { query: [project_id, contributor_id] }
+        params = { query: [project_id, contributor_id] }
+
+        data = endpoint(name: 'Contributors', params: params).do_get
+
+        resource 'Contributor', data
       end
 
       # Returns project contributors
@@ -21,8 +26,12 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash]
       def contributors(project_id, req_params = {})
-        endpoint_collection names: { endpoint: 'Contributors', collection: 'Contributors' },
-                            params: { query: project_id, req: req_params }
+        name = 'Contributors'
+        params = { query: project_id, req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
       end
 
       # Creates one or multiple contributors for a project
@@ -32,9 +41,12 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param req_params [Hash, Array]
       def create_contributors(project_id, req_params)
-        endpoint_collection names: { endpoint: 'Contributors', collection: 'Contributors' },
-                            params: { query: project_id, req: to_contributors_obj(req_params) },
-                            verb: :post
+        name = 'Contributors'
+        params = { query: project_id, req: req_params.to_array_obj(:contributors) }
+
+        data = endpoint(name: name, params: params).do_post
+
+        collection name, data
       end
 
       # Updates a contributor for a project
@@ -45,9 +57,11 @@ module RubyLokaliseApi
       # @param contributor_id [String, Integer]
       # @param req_params [Hash]
       def update_contributor(project_id, contributor_id, req_params)
-        endpoint_resource names: { endpoint: 'Contributors', resource: 'Contributor' },
-                          params: { query: [project_id, contributor_id], req: req_params },
-                          verb: :put
+        params = { query: [project_id, contributor_id], req: req_params }
+
+        data = endpoint(name: 'Contributors', params: params).do_put
+
+        resource 'Contributor', data
       end
 
       # Deletes a single contributor from the project
@@ -57,16 +71,11 @@ module RubyLokaliseApi
       # @param project_id [String]
       # @param contributor_id [String, Integer]
       def destroy_contributor(project_id, contributor_id)
-        endpoint_delete endpoint: 'Contributors',
-                        params: { query: [project_id, contributor_id] }
-      end
+        params = { query: [project_id, contributor_id] }
 
-      private
+        data = endpoint(name: 'Contributors', params: params).do_delete
 
-      def to_contributors_obj(raw_data)
-        raw_data = [raw_data] unless raw_data.is_a?(Array)
-
-        { contributors: raw_data }
+        RubyLokaliseApi::Generics::DeletedResource.new data[:content]
       end
     end
   end

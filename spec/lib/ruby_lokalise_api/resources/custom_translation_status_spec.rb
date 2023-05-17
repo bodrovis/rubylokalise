@@ -6,8 +6,8 @@ RSpec.describe RubyLokaliseApi::Resources::CustomTranslationStatus do
   let(:project_id) { status_fixture['project_id'] }
 
   let(:status_endpoint) do
-    endpoint 'CustomTranslationStatuses', test_client,
-             query: [project_id, status_fixture['custom_translation_status']['status_id']]
+    params = { query: [project_id, status_fixture['custom_translation_status']['status_id']] }
+    endpoint name: 'CustomTranslationStatuses', client: test_client, params: params
   end
 
   let(:status) do
