@@ -1,0 +1,19 @@
+contributors:
+  - project_id
+  - branch
+comments:
+  - project_id
+  - branch
+custom_translation_statuses:
+  - project_id
+  - branch
+files:
+  - project_id
+  - branch
+keys:
+  - project_id
+  - branch
+  - errors
+queued_processes:
+  - project_id
+  - branch

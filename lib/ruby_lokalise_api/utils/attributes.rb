@@ -12,12 +12,11 @@ module RubyLokaliseApi
       # Loads attributes for the given resource based on its name
       #
       # @return [Array<String>]
-      def attributes_for(klass_name)
+      def attributes_for(klass_name, filename)
         name = unify klass_name.snakecase
+        @attributes ||= YAML.load_file(File.expand_path("../data/#{filename}", __dir__)).freeze
 
-        @attributes ||= YAML.load_file(File.expand_path('../data/attributes.yml', __dir__)).freeze
-
-        @attributes[name]
+        @attributes.key?(name) ? @attributes[name] : @attributes["#{name}s"]
       end
 
       # Unify some resources' names (eg, `ProjectComment` and `KeyComment` have the same

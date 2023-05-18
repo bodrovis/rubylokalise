@@ -32,6 +32,8 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
     comments = test_client.comments project_id, key_id
     expect(comments.collection.length).to eq(3)
     expect_to_have_valid_resources(comments)
+    expect(comments.project_id).to eq(project_id)
+    expect(comments.branch).to be_nil
 
     comment = comments[0]
 
@@ -47,6 +49,8 @@ RSpec.describe RubyLokaliseApi::Rest::Comments do
 
     comments = test_client.project_comments project_id
     expect_to_have_valid_resources(comments)
+    expect(comments.project_id).to eq(project_id)
+    expect(comments.branch).to be_nil
 
     comment = comments[0]
 

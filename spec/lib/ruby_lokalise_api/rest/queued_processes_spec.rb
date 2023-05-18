@@ -35,6 +35,8 @@ RSpec.describe RubyLokaliseApi::Rest::QueuedProcesses do
 
     expect(processes.collection.length).to eq(2)
     expect_to_have_valid_resources(processes)
+    expect(processes.project_id).to eq(project_id)
+    expect(processes.branch).to eq('master')
 
     process = processes[0]
 

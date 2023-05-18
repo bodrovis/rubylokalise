@@ -8,6 +8,8 @@ module RubyLokaliseApi
     include Rest::Contributors
     include Rest::CustomTranslationStatuses
     include Rest::Files
+    include Rest::Jwts
+    include Rest::Keys
     include Rest::Projects
     include Rest::QueuedProcesses
   end

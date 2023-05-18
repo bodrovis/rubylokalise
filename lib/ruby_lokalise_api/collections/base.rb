@@ -7,7 +7,11 @@ module RubyLokaliseApi
       extend Forwardable
 
       using RubyLokaliseApi::Utils::Classes
+      extend RubyLokaliseApi::Utils::Attributes
+      extend RubyLokaliseApi::Concerns::AttrsLoadable
       include RubyLokaliseApi::Utils::Keys
+
+      ATTRS_FILENAME = 'collection_attributes.yml'
 
       def_delegators :collection, :[], :last, :each
 
@@ -17,7 +21,7 @@ module RubyLokaliseApi
       def initialize(raw_response)
         @self_endpoint = raw_response[:endpoint]
 
-        populate_pagination_from raw_response
+        populate_common_attrs_from raw_response
         produce_collection_from raw_response
 
         @content = raw_response[:content]
@@ -67,11 +71,15 @@ module RubyLokaliseApi
         )
       end
 
-      def populate_pagination_from(raw_response)
+      def populate_common_attrs_from(raw_response)
         @total_results = raw_response[:'x-pagination-total-count'].to_i
         @total_pages = raw_response[:'x-pagination-page-count'].to_i
         @results_per_page = raw_response[:'x-pagination-limit'].to_i
         @current_page = raw_response[:'x-pagination-page'].to_i
+
+        supported_attrs.each do |attrib|
+          instance_variable_set "@#{attrib}", raw_response[:content][attrib]
+        end
       end
 
       def produce_collection_from(raw_response)

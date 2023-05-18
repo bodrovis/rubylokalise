@@ -15,6 +15,8 @@ RSpec.describe RubyLokaliseApi::Rest::Files do
 
     expect(files.collection.length).to eq(4)
     expect_to_have_valid_resources(files)
+    expect(files.project_id).to eq(project_id)
+    expect(files.branch).to eq('master')
 
     file = files[0]
 

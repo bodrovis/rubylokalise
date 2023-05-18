@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.7'
 
   spec.files = Dir['README.md', 'LICENSE',
-                   'CHANGELOG.md', 'lib/**/*.rb', 'lib/ruby_lokalise_api/data/attributes.yml',
+                   'CHANGELOG.md', 'lib/**/*.rb', 'lib/ruby_lokalise_api/data/*.yml',
                    'ruby-lokalise-api.gemspec', '.github/*.md',
                    'Gemfile', 'Rakefile']
   spec.extra_rdoc_files = ['README.md']

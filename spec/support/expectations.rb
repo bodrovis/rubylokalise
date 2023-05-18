@@ -15,10 +15,8 @@ module Expectations
   private
 
   def endpoint_klass_for(collection_obj)
-    if collection_obj.class.const_defined?(:RESOURCES_ENDPOINT)
-      collection_obj.class.const_get(:RESOURCES_ENDPOINT)
-    else
-      collection_obj.class.const_get(:ENDPOINT)
-    end
+    klass = collection_obj.class
+
+    klass.const_defined?(:RESOURCES_ENDPOINT) ? klass.const_get(:RESOURCES_ENDPOINT) : klass.const_get(:ENDPOINT)
   end
 end

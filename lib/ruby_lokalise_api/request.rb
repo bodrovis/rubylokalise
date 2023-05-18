@@ -74,7 +74,7 @@ module RubyLokaliseApi
       response.
         headers.
         to_h.
-        keep_if { |k, _v| PAGINATION_HEADERS.include?(k) }.
+        keep_if { |header, _value| PAGINATION_HEADERS.include?(header) }.
         transform_keys(&:to_sym)
     end
 

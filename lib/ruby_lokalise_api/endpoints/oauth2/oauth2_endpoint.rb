@@ -7,10 +7,16 @@ module RubyLokaliseApi
         BASE_URL = 'https://app.lokalise.com/oauth2'
         PARTIAL_URI_TEMPLATE = '{/segments*}{?query*}'
 
+        def initialize(client, params = {})
+          super client, params
+
+          @uri = partial_uri(base_query(*@query_params), params.fetch(:get, []))
+        end
+
         private
 
         def partial_uri(segments, query)
-          template = Addressable::Template.new PARTIAL_URI_TEMPLATE
+          template = super
 
           template.expand(
             segments: segments.to_a.flatten,

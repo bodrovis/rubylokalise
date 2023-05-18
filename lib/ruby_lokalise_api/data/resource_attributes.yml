@@ -42,6 +42,8 @@ file:
 jwt:
   - jwt
 key:
+  - branch
+  - project_id
   - key_id
   - created_at
   - created_at_timestamp

@@ -35,6 +35,8 @@ RSpec.describe RubyLokaliseApi::Rest::CustomTranslationStatuses do
 
     statuses = test_client.custom_translation_statuses project_id
 
+    expect(statuses.project_id).to eq(project_id)
+    expect(statuses.branch).to eq('master')
     expect(statuses).to be_an_instance_of(RubyLokaliseApi::Collections::CustomTranslationStatuses)
     expect(statuses.total_results).to eq(3)
     expect_to_have_valid_resources(statuses)

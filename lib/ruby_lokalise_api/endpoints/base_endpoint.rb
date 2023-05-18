@@ -15,7 +15,7 @@ module RubyLokaliseApi
         @query_params = params[:query].to_array
         @client = client
         @req_params = params[:req]
-        @uri = partial_uri(base_query(*@query_params), params.fetch(:get, []))
+        @uri = nil
       end
 
       def reinitialize(query_params: nil, req_params: {})
@@ -28,10 +28,6 @@ module RubyLokaliseApi
 
       def base_url
         self.class.const_get(:BASE_URL)
-      end
-
-      def base_query(*_args)
-        {}
       end
 
       def full_uri
@@ -56,12 +52,14 @@ module RubyLokaliseApi
         end
       end
 
-      def partial_uri(segments, _query = [])
-        template = Addressable::Template.new self.class.const_get(:PARTIAL_URI_TEMPLATE)
+      def base_query(*_args); end
 
-        template.expand(
-          segments: segments.to_a.flatten
-        ).to_s
+      def partial_uri(*_args)
+        Addressable::Template.new partial_uri_template
+      end
+
+      def partial_uri_template
+        self.class.const_get(:PARTIAL_URI_TEMPLATE)
       end
     end
   end
