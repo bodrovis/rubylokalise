@@ -4,17 +4,19 @@ module RubyLokaliseApi
   module Utils
     module Attributes
       using RubyLokaliseApi::Utils::Strings
+      using RubyLokaliseApi::Utils::Classes
 
       private
 
-      UNIFIED_RESOURCES = %w[comment language].freeze
+      UNIFIED_RESOURCES = %w[comment].freeze
 
       # Loads attributes for the given resource based on its name
       #
       # @return [Array<String>]
-      def attributes_for(klass_name, filename)
-        name = unify klass_name.snakecase
+      def attributes_for(klass, filename)
         @attributes ||= YAML.load_file(File.expand_path("../data/#{filename}", __dir__)).freeze
+
+        name = unify klass.base_name.snakecase
 
         @attributes.key?(name) ? @attributes[name] : @attributes["#{name}s"]
       end

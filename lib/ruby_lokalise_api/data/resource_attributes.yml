@@ -67,7 +67,15 @@ key:
   - modified_at_timestamp
   - translations_modified_at
   - translations_modified_at_timestamp
-language:
+system_language:
+- lang_id
+- lang_iso
+- lang_name
+- is_rtl
+- plural_forms
+project_language:
+  - project_id
+  - branch
   - lang_id
   - lang_iso
   - lang_name

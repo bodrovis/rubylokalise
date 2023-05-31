@@ -14,6 +14,8 @@ module RubyLokaliseApi
         end
 
         def to_array_obj(key)
+          return self if is_a?(Hash) && (key?(key) || key?(key.to_s))
+
           { key => to_array }
         end
       end

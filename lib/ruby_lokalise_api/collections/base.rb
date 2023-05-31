@@ -114,7 +114,7 @@ module RubyLokaliseApi
         main_params = self.class.const_get(:RESOURCE).const_get(:MAIN_PARAMS).to_array
 
         main_params.map do |param|
-          other_data[param] || raw_resource[param] || nil
+          other_data[param.to_s] || raw_resource[param.to_s] || nil
         end
       end
 

@@ -18,7 +18,7 @@ module RubyLokaliseApi
 
         populate_attrs_from raw_response[:content]
 
-        # @raw_content = raw_response[:content]
+        @raw_content = raw_response[:content]
       end
 
       # Updates the current resource

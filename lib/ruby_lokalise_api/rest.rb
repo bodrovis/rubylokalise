@@ -10,6 +10,7 @@ module RubyLokaliseApi
     include Rest::Files
     include Rest::Jwts
     include Rest::Keys
+    include Rest::Languages
     include Rest::Projects
     include Rest::QueuedProcesses
   end

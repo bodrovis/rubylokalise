@@ -36,6 +36,7 @@ RSpec.describe RubyLokaliseApi::Rest::Contributors do
     )
 
     contributors = test_client.contributors project_id
+
     expect(contributors.collection.length).to eq(3)
     expect_to_have_valid_resources(contributors)
     expect(contributors.project_id).to eq(project_id)

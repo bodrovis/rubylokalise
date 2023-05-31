@@ -14,6 +14,9 @@ keys:
   - project_id
   - branch
   - errors
+project_languages:
+  - project_id
+  - branch
 queued_processes:
   - project_id
   - branch
