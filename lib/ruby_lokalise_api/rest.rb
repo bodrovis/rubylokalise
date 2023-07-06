@@ -11,6 +11,7 @@ module RubyLokaliseApi
     include Rest::Jwts
     include Rest::Keys
     include Rest::Languages
+    include Rest::Orders
     include Rest::PaymentCards
     include Rest::Projects
     include Rest::QueuedProcesses

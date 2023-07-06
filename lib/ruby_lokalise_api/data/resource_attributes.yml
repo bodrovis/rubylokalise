@@ -82,8 +82,10 @@ project_language:
   - is_rtl
   - plural_forms
 order:
+  - team_id
   - order_id
   - project_id
+  - branch
   - card_id
   - status
   - created_at

@@ -14,6 +14,8 @@ keys:
   - project_id
   - branch
   - errors
+orders:
+  - team_id
 payment_cards:
   - user_id
 project_languages:
@@ -22,3 +24,5 @@ project_languages:
 queued_processes:
   - project_id
   - branch
+screenshots:
+  - project_id
