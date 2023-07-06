@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+
+module RubyLokaliseApi
+  module Rest
+    module Screenshots
+      # Returns project screenshots
+      #
+      # @see https://developers.lokalise.com/reference/list-all-screenshots
+      # @return [RubyLokaliseApi::Collections::Screenshots]
+      # @param project_id [String]
+      # @param req_params [Hash]
+      def screenshots(project_id, req_params = {})
+        name = 'Screenshots'
+        params = { query: project_id, req: req_params }
+
+        data = endpoint(name: name, params: params).do_get
+
+        collection name, data
+      end
+
+      # Returns a single screenshot
+      #
+      # @see https://developers.lokalise.com/reference/retrieve-a-screenshot
+      # @return [RubyLokaliseApi::Resources::Screenshot]
+      # @param project_id [String]
+      # @param screenshot_id [String, Integer]
+      # @param req_params[Hash]
+      def screenshot(project_id, screenshot_id, req_params = {})
+        params = { query: [project_id, screenshot_id], req: req_params }
+
+        data = endpoint(name: 'Screenshots', params: params).do_get
+
+        resource 'Screenshot', data
+      end
+    end
+  end
+end

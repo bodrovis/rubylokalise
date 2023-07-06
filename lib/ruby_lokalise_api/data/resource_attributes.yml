@@ -138,8 +138,11 @@ queued_process:
   - created_at_timestamp
   - details
 screenshot:
+  - project_id
+  - branch
   - screenshot_id
   - key_ids
+  - keys
   - url
   - title
   - description

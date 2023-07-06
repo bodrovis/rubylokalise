@@ -15,6 +15,7 @@ module RubyLokaliseApi
     include Rest::PaymentCards
     include Rest::Projects
     include Rest::QueuedProcesses
+    include Rest::Screenshots
     include Rest::Teams
   end
 end
