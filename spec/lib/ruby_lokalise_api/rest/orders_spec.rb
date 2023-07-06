@@ -69,7 +69,7 @@ RSpec.describe RubyLokaliseApi::Rest::Orders do
 
     stub(
       uri: "teams/#{team_id}/orders",
-      req: { body: { keys: order_data }, verb: :post },
+      req: { body: order_data, verb: :post },
       resp: { body: fixture('orders/create_order') }
     )
 
