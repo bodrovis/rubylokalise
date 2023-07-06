@@ -103,6 +103,7 @@ order:
   - payment_method
   - dry_run
 payment_card:
+  - user_id
   - card_id
   - last4
   - brand
