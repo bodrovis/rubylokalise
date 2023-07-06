@@ -34,6 +34,6 @@ RSpec.configure do |config|
   config.before(:suite) do
     Fixtures.eager_load
 
-    # WebMock.allow_net_connect!
+    WebMock.allow_net_connect!
   end
 end

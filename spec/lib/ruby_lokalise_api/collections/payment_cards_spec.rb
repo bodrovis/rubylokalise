@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe RubyLokaliseApi::Collections::PaymentCards do
-  # let(:key_id) { 301_832_195 }
   let(:pagination_params) { { page: 2, limit: 1 } }
   let(:pagination_headers) do
     {

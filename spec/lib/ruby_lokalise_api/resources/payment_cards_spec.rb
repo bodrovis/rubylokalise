@@ -31,4 +31,15 @@ RSpec.describe RubyLokaliseApi::Resources::PaymentCard do
   it 'does not support update' do
     expect(card).not_to respond_to(:update)
   end
+
+  specify '#reload_data' do
+    stub(
+      uri: "payment_cards/#{card_id}",
+      resp: { body: fixture('payment_cards/payment_card') }
+    )
+
+    reloaded_card = card.reload_data
+
+    expect(reloaded_card.card_id).to eq(card_id)
+  end
 end
