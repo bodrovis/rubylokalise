@@ -16,9 +16,7 @@ module RubyLokaliseApi
         restored_project = endpoint(name: 'Snapshots', client: @self_endpoint.client, params: params).do_post
 
         # We restore a project so its endpoint is different
-        restored_project[:endpoint] = endpoint(name: 'Projects', params: { query: [@project_id] })
-
-        resource 'Project', restored_project
+        resource 'Project', patch_endpoint_with(restored_project, 'Projects', query: [@project_id])
       end
     end
   end

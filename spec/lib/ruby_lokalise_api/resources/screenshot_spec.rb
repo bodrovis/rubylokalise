@@ -8,7 +8,7 @@ RSpec.describe RubyLokaliseApi::Resources::Screenshot do
   let(:screen_id) { loaded_screen_fixture['screenshot']['screenshot_id'] }
 
   let(:screen_endpoint) do
-    endpoint name: 'Screenshots', client: test_client, params: { query: [screen_id] }
+    endpoint name: 'Screenshots', client: test_client, params: { query: [project_id, screen_id] }
   end
 
   let(:screen) do

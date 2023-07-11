@@ -44,9 +44,7 @@ module RubyLokaliseApi
         data = endpoint(name: 'Snapshots', params: params).do_post
 
         # We restore a project so its endpoint is different
-        data[:endpoint] = endpoint(name: 'Projects', params: { query: [project_id] })
-
-        resource 'Project', data
+        resource 'Project', patch_endpoint_with(data, 'Projects', query: [project_id])
       end
 
       # Deletes a snapshot

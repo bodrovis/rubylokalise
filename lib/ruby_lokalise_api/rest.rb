@@ -4,6 +4,7 @@ module RubyLokaliseApi
   module Rest
     include Utils::Loaders
 
+    include Rest::Branches
     include Rest::Comments
     include Rest::Contributors
     include Rest::CustomTranslationStatuses
@@ -18,12 +19,5 @@ module RubyLokaliseApi
     include Rest::Screenshots
     include Rest::Snapshots
     include Rest::Teams
-
-    private
-
-    def patch_content_with(data, attribute, value)
-      data[:content][attribute] = value
-      data
-    end
   end
 end

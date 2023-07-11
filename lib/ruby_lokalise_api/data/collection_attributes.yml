@@ -1,3 +1,6 @@
+branches:
+  - project_id
+  - branch
 contributors:
   - project_id
   - branch

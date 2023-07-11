@@ -49,7 +49,7 @@ RSpec.describe RubyLokaliseApi::Resources::Snapshot do
     )
 
     resp = snapshots[0].destroy
-    puts resp.inspect
+
     expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
     expect(resp.project_id).to eq(project_id)
     expect(resp.branch).to eq('master')

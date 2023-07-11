@@ -19,6 +19,16 @@ module RubyLokaliseApi
         klass = RubyLokaliseApi.const_get "Collections::#{name}"
         klass.new data
       end
+
+      def patch_content_with(data, attribute, value)
+        data[:content][attribute] = value
+        data
+      end
+
+      def patch_endpoint_with(data, ep_name, params)
+        data[:endpoint] = endpoint(name: ep_name, params: params)
+        data
+      end
     end
   end
 end
