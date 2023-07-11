@@ -28,3 +28,6 @@ screenshots:
   - project_id
   - branch
   - errors
+snapshots:
+  - project_id
+  - branch

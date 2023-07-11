@@ -165,6 +165,8 @@ segment:
   - words
   - custom_translation_statuses
 snapshot:
+  - project_id
+  - branch
   - snapshot_id
   - title
   - created_at

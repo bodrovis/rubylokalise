@@ -16,6 +16,7 @@ module RubyLokaliseApi
     include Rest::Projects
     include Rest::QueuedProcesses
     include Rest::Screenshots
+    include Rest::Snapshots
     include Rest::Teams
 
     private
