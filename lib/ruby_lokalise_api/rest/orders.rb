@@ -48,13 +48,6 @@ module RubyLokaliseApi
         # We must patch content because the API does not return team_id and it's mandatory to build resource URL
         resource 'Order', patch_content_with(data, 'team_id', team_id)
       end
-
-      private
-
-      def patch_content_with(data, attribute, value)
-        data[:content][attribute] = value
-        data
-      end
     end
   end
 end

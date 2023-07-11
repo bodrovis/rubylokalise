@@ -27,3 +27,4 @@ queued_processes:
 screenshots:
   - project_id
   - branch
+  - errors

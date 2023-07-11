@@ -17,5 +17,12 @@ module RubyLokaliseApi
     include Rest::QueuedProcesses
     include Rest::Screenshots
     include Rest::Teams
+
+    private
+
+    def patch_content_with(data, attribute, value)
+      data[:content][attribute] = value
+      data
+    end
   end
 end

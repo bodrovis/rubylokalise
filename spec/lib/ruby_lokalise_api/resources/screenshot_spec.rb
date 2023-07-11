@@ -25,4 +25,39 @@ RSpec.describe RubyLokaliseApi::Resources::Screenshot do
 
     expect(reloaded_screen.screenshot_id).to eq(screen_id)
   end
+
+  specify '#update' do
+    screenshot_data = {
+      title: 'Ruby updated',
+      tags: %w[one two]
+    }
+
+    stub(
+      uri: "projects/#{project_id}/screenshots/#{screen_id}",
+      req: { body: screenshot_data, verb: :put },
+      resp: { body: fixture('screenshots/update_screenshot') }
+    )
+
+    updated_screen = screen.update screenshot_data
+
+    expect(updated_screen).to be_an_instance_of(described_class)
+    expect(updated_screen.title).to eq(screenshot_data[:title])
+    expect(updated_screen.screenshot_tags).to include(*screenshot_data[:tags])
+    expect(updated_screen.screenshot_id).to eq(screen_id)
+  end
+
+  specify '#destroy' do
+    stub(
+      uri: "projects/#{project_id}/screenshots/#{screen_id}",
+      req: { verb: :delete },
+      resp: { body: fixture('screenshots/destroy_screenshot') }
+    )
+
+    resp = screen.destroy
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
+    expect(resp.project_id).to eq(project_id)
+    expect(resp.branch).to eq('master')
+    expect(resp.screenshot_deleted).to be true
+  end
 end
