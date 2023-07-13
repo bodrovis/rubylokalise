@@ -8,6 +8,7 @@ module RubyLokaliseApi
     EmptiedResource = Class.new(self)
     CustomStatusAvailableColors = Class.new(self)
     DownloadBundle = Class.new(self)
+    MergedBranches = Class.new(self)
 
     def initialize(raw_data)
       raw_data.each do |att, val|

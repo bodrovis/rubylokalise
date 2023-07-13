@@ -56,4 +56,58 @@ RSpec.describe RubyLokaliseApi::Rest::Branches do
     expect(branch.name).to eq(branch_data[:name])
     expect(branch.project_id).to eq(project_id)
   end
+
+  specify '#update_branch' do
+    branch_data = {
+      name: 'Ruby_updated'
+    }
+
+    stub(
+      uri: "projects/#{project_id}/branches/#{branch_id}",
+      req: { body: branch_data, verb: :put },
+      resp: { body: fixture('branches/update_branch') }
+    )
+
+    branch = test_client.update_branch project_id, branch_id, branch_data
+
+    expect(branch).to be_an_instance_of(RubyLokaliseApi::Resources::Branch)
+    expect(branch.name).to eq(branch_data[:name])
+    expect(branch.branch_id).to eq(branch_id)
+  end
+
+  specify '#destroy_branch' do
+    stub(
+      uri: "projects/#{project_id}/branches/#{branch_id}",
+      req: { verb: :delete },
+      resp: { body: fixture('branches/destroy_branch') }
+    )
+
+    resp = test_client.destroy_branch project_id, branch_id
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::DeletedResource)
+    expect(resp.project_id).to eq(project_id)
+    expect(resp.branch).to eq('master')
+    expect(resp.branch_deleted).to be true
+  end
+
+  specify '#merge_branch' do
+    merge_source = 324_747
+    merge_target = 324_738
+    data = {
+      force_conflict_resolve_using: 'source',
+      target_branch_id: merge_target
+    }
+
+    stub(
+      uri: "projects/#{project_id}/branches/#{merge_source}/merge",
+      req: { body: data, verb: :post },
+      resp: { body: fixture('branches/merge_branch') }
+    )
+
+    resp = test_client.merge_branch project_id, merge_source, data
+
+    expect(resp).to be_an_instance_of(RubyLokaliseApi::Generics::MergedBranches)
+    expect(resp.project_id).to eq(project_id)
+    expect(resp.branch['branch_id']).to eq(merge_source)
+  end
 end

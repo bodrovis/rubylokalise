@@ -5,10 +5,10 @@ module RubyLokaliseApi
     class BranchesEndpoint < MainEndpoint
       private
 
-      def base_query(project_id, branch_id = nil)
+      def base_query(project_id, branch_id = nil, action = nil)
         {
           projects: project_id,
-          branches: branch_id
+          branches: [branch_id, action]
         }
       end
     end

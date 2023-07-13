@@ -45,6 +45,50 @@ module RubyLokaliseApi
 
         resource 'Branch', data
       end
+
+      # Updates a branch
+      #
+      # @see https://developers.lokalise.com/reference/update-a-branch
+      # @return [RubyLokaliseApi::Resources::Branch]
+      # @param project_id [String]
+      # @param branch_id [String, Integer]
+      # @param req_params [Hash]
+      def update_branch(project_id, branch_id, req_params = {})
+        params = { query: [project_id, branch_id], req: req_params }
+
+        data = endpoint(name: 'Branches', params: params).do_put
+
+        resource 'Branch', data
+      end
+
+      # Deletes a branch
+      #
+      # @see https://developers.lokalise.com/reference/delete-a-branch
+      # @return [RubyLokaliseApi::Generics::DeletedResource]
+      # @param project_id [String]
+      # @param branch_id [String, Integer]
+      def destroy_branch(project_id, branch_id)
+        params = { query: [project_id, branch_id] }
+
+        data = endpoint(name: 'Branches', params: params).do_delete
+
+        RubyLokaliseApi::Generics::DeletedResource.new data[:content]
+      end
+
+      # Merges two branches
+      #
+      # @see https://developers.lokalise.com/reference/merge-a-branch
+      # @return [RubyLokaliseApi::Generics::MergedBranches]
+      # @param project_id [String]
+      # @param branch_id [String, Integer]
+      # @param req_params [Hash]
+      def merge_branch(project_id, branch_id, req_params)
+        params = { query: [project_id, branch_id, :merge], req: req_params }
+
+        data = endpoint(name: 'Branches', params: params).do_post
+
+        RubyLokaliseApi::Generics::MergedBranches.new data[:content]
+      end
     end
   end
 end
